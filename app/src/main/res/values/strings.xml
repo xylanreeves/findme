@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">FindMe</string>
+
+
+
+    <string name="add_details">Add Details</string>
+    <string name="add_missing_person">Add Missing/Lost Person</string>
+
+
+    <string name="preferences">Preferences</string>
+    <string name="search">Search</string>
+    <string name="drawer">Drawer</string>
+
+    <!--Drawer-->
+    <string name="terms_of_service">Terms Of Service</string>
+    <string name="donate">Donate</string>
+    <string name="open_drawer">Open The Drawer</string>
+    <string name="close_drawer">Close The Drawer</string>
+    <string name="about">About</string>
+
+
+    <!--addDetails_Page-->
+    <string name="add_upto_5">Add upto 5 Photos</string>
+    <string name="name">Name</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="age">Age</string>
+    <string name="enter_age">Enter Age</string>
+    <string name="gender">Gender</string>
+    <string name="enter_gender">Enter Gender</string>
+    <string name="nationality">Nationality</string>
+    <string name="enter_nationality">Enter Nationality</string>
+    <string name="add_more_details">Add More Details</string>
+    <string name="add_here">Add Here</string>
+    <string name="mob_no">Phone number</string>
+    <string name="enter_mobno">Enter Uploader\'s Phone number for Verification</string>
+
+
+    <!--Donation addresses-->
+    <string name="btc_address_wzr">3CHcXfZqdGDovhcUZcfzZN4RigU9awXS6E</string>
+    <string name="btc_address_cb">3KPG11fkjj3q7FJp9qh4PRVx8iyWDcQGNT</string>
+    <string name="paypal_address">paypal.me/xylannerd</string>
+
+    <!--Phone Activity-->
+    <string name="verify_phone">Verify Phone</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="enter_phone">Enter Phone Number</string>
+    <string name="generate_otp">Generate OTP</string>
+    <string name="next">Next</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="enter_your_phone">Enter your phone number</string>
+    <string name="tap_next">Standard SMS fees may apply</string>
+    <string name="enter_the_code">Enter the code that was sent to this number</string>
+    <string name="didnt_receive_the_code">Didn\'t receive the code?</string>
+    <string name="resend_code">Resend code</string>
+
+</resources>
