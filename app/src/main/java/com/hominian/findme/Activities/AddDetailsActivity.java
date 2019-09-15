@@ -1,19 +1,28 @@
 package com.hominian.findme.Activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.hominian.findme.R;
@@ -21,25 +30,42 @@ import com.hominian.findme.R;
 public class AddDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "AddDetailsActivity";
-    private static final int IMAGE_PICK_INTENT = 71;
+    private static final int STORAGE_REQUEST_CODE = 23;
 
-    Toolbar toolbar;
-    private Uri filepath;
+    private Toolbar toolbar;
+    private Uri mImageUri;
     private ImageView img1, img2, img3, img4, img5;
+    private ImageButton cancelBtn1, cancelBtn2, cancelBtn3, cancelBtn4, cancelBtn5;
     boolean img1Vacant, img2Vacant, img3Vacant, img4Vacant, img5Vacant;
-    EditText editTextPhone;
-    String codeSent;
+    private EditText editTextPhone;
 
-    //Firebase instances
+    private Uri[] imageUriList;
+    private int mView;
+
+    //Firebase_instances
     FirebaseAuth mAuth;
+    FirebaseUser mUser;
+    FirebaseAuth.AuthStateListener authStateListener;
+
+    //FirebaseFirestore_database
+    FirebaseFirestore rootRef;
 
 
-    private void findViewIds(){
-        img1=findViewById(R.id.img1);
-        img2=findViewById(R.id.img2);
-        img3=findViewById(R.id.img3);
-        img4=findViewById(R.id.img4);
-        img5=findViewById(R.id.img5);
+    private void findViewIds() {
+
+        //cardView_profile_images
+        img1 = findViewById(R.id.img1);
+        img2 = findViewById(R.id.img2);
+        img3 = findViewById(R.id.img3);
+        img4 = findViewById(R.id.img4);
+        img5 = findViewById(R.id.img5);
+
+        //remove_image_buttons
+        cancelBtn1 = findViewById(R.id.cancelButton1);
+        cancelBtn2 = findViewById(R.id.cancelButton2);
+        cancelBtn3 = findViewById(R.id.cancelButton3);
+        cancelBtn4 = findViewById(R.id.cancelButton4);
+        cancelBtn5 = findViewById(R.id.cancelButton5);
     }
 
 
@@ -47,13 +73,25 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_details);
-        toolbar=findViewById(R.id.toolbar_detail);
+
+        toolbar = findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         mAuth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                mUser = mAuth.getCurrentUser();
+                if (mUser == null) {
+                    startActivity(new Intent(AddDetailsActivity.this, PhoneAuth.class));
+                    finish();
+                }
+            }
+        };
+
         editTextPhone = findViewById(R.id.mobile_id);
         findViewIds();
 
@@ -63,53 +101,98 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
         img4.setOnClickListener(this);
         img5.setOnClickListener(this);
 
+        cancelBtn1.setOnClickListener(this);
+        cancelBtn2.setOnClickListener(this);
+        cancelBtn3.setOnClickListener(this);
+        cancelBtn4.setOnClickListener(this);
+        cancelBtn5.setOnClickListener(this);
+
+        imageUriList = new Uri[5];
+
     }
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(authStateListener);
+    }
 
     @Override
     public void onClick(View v) {
 
-        if (v==img1){
-            Log.i(TAG,"onClick: img1");
-            if (!img1Vacant){
+        if (v == img1) {
+            if (imageUriList[0] == null) {
+                mView=1;
+                chooseImage();
+            }
+        } else if (v == img2) {
+            if (imageUriList[1] == null) {
+                mView=2;
+                chooseImage();
+            }
+        } else if (v == img3) {
+            if (imageUriList[2] == null) {
+                mView=3;
+                chooseImage();
+            }
+        } else if (v == img4) {
+            if (imageUriList[3] == null) {
+                mView=4;
+                chooseImage();
+            }
+        } else if (v == img5) {
+            if (imageUriList[4] == null) {
+                mView=5;
                 chooseImage();
             }
         }
-        else if (v==img2){
-            Log.i(TAG,"onClick: img2");
-            if (!img2Vacant){
-                chooseImage();
+
+        if (v == cancelBtn1) {
+            if (imageUriList[0] != null) {
+                imageUriList[0] = null;
+                Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img1);
+                cancelBtn1.setVisibility(View.INVISIBLE);
+            }
+        } else if (v == cancelBtn2){
+            if (imageUriList[1] != null){
+                imageUriList[1] = null;
+                Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img2);
+                cancelBtn2.setVisibility(View.INVISIBLE);
+            }
+        } else if (v == cancelBtn3){
+            if (imageUriList[2] != null){
+                imageUriList[2] = null;
+                Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img3);
+                cancelBtn3.setVisibility(View.INVISIBLE);
+            }
+        } else if (v == cancelBtn4){
+            if (imageUriList[3] != null){
+                imageUriList[3] = null;
+                Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img4);
+                cancelBtn4.setVisibility(View.INVISIBLE);
+            }
+        } else if (v == cancelBtn5){
+            if (imageUriList[4] != null){
+                imageUriList[4] = null;
+                Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img5);
+                cancelBtn5.setVisibility(View.INVISIBLE);
             }
         }
-        else if (v==img3){
-            Log.i(TAG,"onClick: img3");
-            if (!img3Vacant){
-                chooseImage();
-            }
-        }
-        else if (v==img4){
-            Log.i(TAG, "onClick: img4");
-            if (!img4Vacant){
-                chooseImage();
-            }
-        }
-        else if (v==img5){
-            Log.i(TAG, "onClick: img5");
-            if (!img5Vacant){
-                chooseImage();
-            }
-        }
+
+
     }
 
 
-
-    private void chooseImage(){
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setAspectRatio(1, 1)
-                .start(this);
-
+    private void chooseImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permission Required!", Toast.LENGTH_SHORT).show();
+            askStoragePermission();
+        } else {
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1, 1)
+                    .start(this);
+        }
     }
 
 
@@ -121,74 +204,48 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
             if (resultCode == RESULT_OK) {
+                mImageUri = result.getUri();
 
-                filepath = result.getUri();
-            }
-            else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                if (mView==1){
+                    imageUriList[0]= mImageUri;
+                    Glide.with(this).load(mImageUri).centerCrop().into(img1);
+                    cancelBtn1.setVisibility(View.VISIBLE);
+                } else if (mView==2){
+                    imageUriList[1]= mImageUri;
+                    Glide.with(this).load(mImageUri).centerCrop().into(img2);
+                    cancelBtn2.setVisibility(View.VISIBLE);
+                } else if (mView==3){
+                    imageUriList[2]= mImageUri;
+                    Glide.with(this).load(mImageUri).centerCrop().into(img3);
+                    cancelBtn3.setVisibility(View.VISIBLE);
+                } else if (mView==4){
+                    imageUriList[3]= mImageUri;
+                    Glide.with(this).load(mImageUri).centerCrop().into(img4);
+                    cancelBtn4.setVisibility(View.VISIBLE);
+                } else if (mView==5){
+                    imageUriList[4]= mImageUri;
+                    Glide.with(this).load(mImageUri).centerCrop().into(img5);
+                    cancelBtn5.setVisibility(View.VISIBLE);
+                }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
 
                 Exception error = result.getError();
-                Toast.makeText(this, "Error Occured", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error Occured: " + error + "Please try again", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public void clickNext(View view){
-        Toast.makeText(this, "     .,sdf\nFuck Off!", Toast.LENGTH_SHORT).show();
+
+
+
+    public void clickNext(View view) {
+        Toast.makeText(this, "Fuck Off!", Toast.LENGTH_SHORT).show();
     }
 
 
-
-//    private void initPhone() {
-//
-//
-//        private void sendVerificationCode(){
-//
-//            String phoneNumber = editTextPhone.getText().toString();
-//
-//            if (phoneNumber.isEmpty()){
-//                editTextPhone.setError("Phone Number is required for Verification");
-//                editTextPhone.requestFocus();
-//                return;
-//            }
-//            if (phoneNumber.length() < 10){
-//                editTextPhone.setError("Please enter a valid Phone Number");
-//                editTextPhone.requestFocus();
-//                return;
-//            }
-//
-//            PhoneAuthProvider.getInstance().verifyPhoneNumber(
-//                    phoneNumber,        // Phone number to verify
-//                    60,                 // Timeout duration
-//                    TimeUnit.SECONDS,   // Unit of timeout
-//                    this,               // Activity (for callback binding)
-//                    mCallbacks);        // OnVerificationStateChangedCallbacksPhoneAuthActivity.java
-//
-//        }
-//
-//        PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-//            @Override
-//            public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
-//
-//            }
-//
-//            @Override
-//            public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-//                super.onCodeSent(s, forceResendingToken);
-//
-//                codeSent = s;
-//            }
-//
-//            @Override
-//            public void onVerificationFailed(FirebaseException e) {
-//
-//            }
-//        }
-//
-//        private void verifySignInCode(){
-//            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(codeSent, code);
-//        }
-//    }
-
-
+    public void askStoragePermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_REQUEST_CODE);
+    }
 
 }

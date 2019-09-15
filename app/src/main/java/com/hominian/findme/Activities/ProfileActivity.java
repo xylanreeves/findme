@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.hominian.findme.Adapters.ImageViewAdapter;
 import com.hominian.findme.R;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -15,8 +14,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        ViewPager viewPager = findViewById(R.id.imageViewPager);
-        ImageViewAdapter imageViewAdapter = new ImageViewAdapter(this);
-        viewPager.setAdapter(imageViewAdapter);
     }
+
+
 }

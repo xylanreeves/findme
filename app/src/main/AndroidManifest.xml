@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".Activities.EnterOtp"
-            android:parentActivityName=".Activities.PhoneAuth"
-            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.PhoneAuth"
             android:parentActivityName=".Activities.MainActivity"

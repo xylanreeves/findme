@@ -44,13 +44,19 @@
     <string name="verify_phone">Verify Phone</string>
     <string name="enter_otp">Enter OTP</string>
     <string name="enter_phone">Enter Phone Number</string>
-    <string name="generate_otp">Generate OTP</string>
-    <string name="next">Next</string>
+    <string name="generate_otp">Receive Verification Code</string>
+    <string name="verify_proceed">Verify and Proceed</string>
     <string name="verify_otp">Verify OTP</string>
     <string name="enter_your_phone">Enter your phone number</string>
-    <string name="tap_next">Standard SMS fees may apply</string>
+    <string name="tap_next">A Verification Code will be send to your Phone\nStandard SMS fees may apply</string>
     <string name="enter_the_code">Enter the code that was sent to this number</string>
     <string name="didnt_receive_the_code">Didn\'t receive the code?</string>
     <string name="resend_code">Resend code</string>
+    <string name="_0000">0000</string>
+    <string name="finish">Finish</string>
+    <string name="send_code">Send Code</string>
+    <string name="auto_otp">Automatically verifying OTP</string>
+    <string name="signin_error">Sign In Error! \nPlease Try Again</string>
+    <string name="h_id">H.ID:</string>
 
 </resources>
