@@ -13,105 +13,20 @@
     android:scrollbars="none">
 
     <RelativeLayout
+        android:id="@+id/rel_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="2000dp"
         android:background="@color/background_color"
         android:orientation="vertical">
 
-
-        <Button
-            android:id="@+id/next_button"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_below="@+id/mobile_id"
-            android:layout_alignParentBottom="false"
-            android:background="@drawable/button_state_generic"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="clickNext"
-            android:text="@string/finish"
-            android:textColor="@color/colorPrimary"
-            android:textSize="14sp" />
-
-
-        <EditText
-            android:id="@+id/enter_name_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/name_tv"
-            android:background="@color/colorPrimary"
-            android:hint="@string/enter_name"
-            android:padding="12dp"
-            android:textColor="@color/text_color_light"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/age_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/age_tv"
-            android:background="@color/colorPrimary"
-            android:hint="@string/enter_age"
-            android:padding="12dp"
-            android:textColor="@color/text_color_light"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/gender_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/gender_tv"
-            android:background="@color/colorPrimary"
-            android:hint="@string/enter_gender"
-            android:padding="12dp"
-            android:textColor="@color/text_color_light"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/nationality_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nationality_tv"
-            android:background="@color/colorPrimary"
-            android:hint="@string/enter_nationality"
-            android:padding="12dp"
-            android:textColor="@color/text_color_light"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/details_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/enter_details_tv"
-            android:background="@color/colorPrimary"
-            android:hint="@string/add_here"
-            android:paddingLeft="12dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="64dp"
-            android:textColor="@color/text_color_light"
-            android:textSize="15sp" />
-
-        <EditText
-            android:id="@+id/mobile_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/mobile_no_tv"
-            android:layout_marginBottom="64dp"
-            android:background="@color/colorPrimary"
-            android:hint="Enter Phone Number"
-            android:padding="12dp"
-            android:textColor="@color/text_color_light"
-            android:textSize="15sp">
-
-        </EditText>
 
         <HorizontalScrollView
             android:id="@+id/horizontal_scrollview_layout"
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:layout_below="@+id/add_name"
-            android:scrollbars="none"
-            android:paddingRight="4dp">
+            android:paddingRight="4dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -364,21 +279,141 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
             </LinearLayout>
 
 
         </HorizontalScrollView>
+
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/button_state_generic"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="clickNext"
+            android:text="@string/finish"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp" />
+
+
+        <EditText
+            android:id="@+id/enter_name_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_tv"
+            android:background="@color/colorPrimary"
+            android:hint="@string/enter_name"
+            android:padding="12dp"
+            android:textColor="@color/text_color_light"
+            android:textSize="15sp" />
+
+
+        <EditText
+            android:id="@+id/age_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/age_tv"
+            android:background="@color/colorPrimary"
+            android:hint="@string/enter_age"
+            android:padding="12dp"
+            android:textColor="@color/text_color_light"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/gender_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gender_tv"
+            android:background="@color/colorPrimary"
+            android:hint="@string/enter_gender"
+            android:padding="12dp"
+            android:textColor="@color/text_color_light"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/nationality_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nationality_tv"
+            android:background="@color/colorPrimary"
+            android:hint="@string/enter_nationality"
+            android:padding="12dp"
+            android:textColor="@color/text_color_light"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/details_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/enter_details_tv"
+            android:background="@color/colorPrimary"
+            android:hint="@string/add_here"
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="64dp"
+            android:textColor="@color/text_color_light"
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
+
+        <EditText
+            android:id="@+id/mobile_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mobile_no_tv"
+            android:background="@color/colorPrimary"
+            android:hint="@string/enter_phone_number"
+            android:padding="12dp"
+            android:textColor="@color/text_color_light"
+            android:textSize="15sp">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mobile_id"
+            android:paddingLeft="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="2dp"
+            android:text="@string/location_info"
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@+id/location_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/location"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="6dp"
+            android:textColor="@drawable/text_selector"
+            android:background="@drawable/button_bg_stroke"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="8dp"
+            android:text="@string/add_location"/>
 
         <TextView
             android:id="@+id/add_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/appbar_id"
-            android:paddingVertical="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="12dp"
             android:text="@string/add_upto_5"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/name_tv"
@@ -389,7 +424,9 @@
             android:paddingTop="12dp"
             android:paddingBottom="2dp"
             android:text="@string/name"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/age_tv"
@@ -400,7 +437,9 @@
             android:paddingTop="12dp"
             android:paddingBottom="2dp"
             android:text="@string/age"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
 
 
         <TextView
@@ -412,7 +451,9 @@
             android:paddingTop="12dp"
             android:paddingBottom="2dp"
             android:text="@string/gender"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/nationality_tv"
@@ -423,7 +464,9 @@
             android:paddingTop="12dp"
             android:paddingBottom="2dp"
             android:text="@string/nationality"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
 
 
         <TextView
@@ -435,7 +478,9 @@
             android:paddingTop="12dp"
             android:paddingBottom="2dp"
             android:text="@string/add_more_details"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/mobile_no_tv"
@@ -446,7 +491,9 @@
             android:paddingTop="12dp"
             android:paddingBottom="2dp"
             android:text="@string/mob_no"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:paddingStart="12dp"
+            tools:ignore="RtlSymmetry" />
 
 
         <com.google.android.material.appbar.AppBarLayout
