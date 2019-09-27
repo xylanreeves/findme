@@ -3,7 +3,7 @@
 
     <stroke android:color="@drawable/text_selector" android:width="1dp"/>
     <corners android:radius="@dimen/radius"/>
-    <solid android:color="@color/colorPrimary"/>
+    <solid android:color="@android:color/transparent"/>
 
 
 </shape>

@@ -1,9 +1,11 @@
 package com.hominian.findme.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener authStateListener;
     FirebaseUser mUser;
-    TextView id, numId;
+    TextView id, numId, signOutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         initList();
         initRecyclerView();
+
+        signOutBtn = findViewById(R.id.sign_out_id);
 
         mAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -57,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
         if (mAuth.getCurrentUser() != null){
             numId.setText(mAuth.getCurrentUser().getPhoneNumber());
             numId.setVisibility(View.VISIBLE);
-            id.setVisibility(View.VISIBLE);
+            signOutBtn.setVisibility(View.VISIBLE);
         } else {
-            numId.setVisibility(View.INVISIBLE);
-            id.setVisibility(View.INVISIBLE);
+            numId.setText(R.string.guest_);
+            signOutBtn.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -123,6 +127,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void signOut(View view){
+
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Confirm Sign Out?")
+                .setNegativeButton("Go Back", null)
+                .setPositiveButton("Sign Out", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAuth.signOut();
+                        Intent signOutIntent = new Intent(MainActivity.this, MainActivity.class);
+                        signOutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(signOutIntent);
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
     
 
 

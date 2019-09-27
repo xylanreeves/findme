@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,15 +26,22 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.core.Tag;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
 import com.hominian.findme.R;
 
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuth extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "PhoneAuth";
+
+    private static final String KEY_UID = "UID";
+    private static final String KEY_NUMBER = "Phone Number";
 
     private TextView tV3;
     private EditText phoneNumber;
@@ -45,7 +53,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
 
     private CountDownTimer countDownTimer;
     private long timeLeftInMilliSec = 60000;
-    private boolean timerRunning;
+    private boolean timerRunning = false;
 
     private String number;
     private String verificationId;
@@ -55,6 +63,10 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore rootRef;
+    private CollectionReference uploaderRef;
+
+
+    private boolean anotherTry = false;
 
 
     @Override
@@ -89,6 +101,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
         //Firebase_Stuff
         mAuth = FirebaseAuth.getInstance();
         rootRef = FirebaseFirestore.getInstance();
+        uploaderRef = rootRef.collection("uploaders");
 
 
         //init_callbacks
@@ -100,8 +113,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                 resendToken = forceResendingToken;
 
 
-
-
+                tV3.setText(R.string.auto_otp);
                 verifyCode.setEnabled(true);
                 mProgressBar.setVisibility(View.VISIBLE);
 
@@ -115,9 +127,9 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                 String code = phoneAuthCredential.getSmsCode();
 
                 mProgressBar.setVisibility(View.INVISIBLE);
-                if (code !=null){
+                if (code != null) {
                     pinView.setText(code);
-                    verifyCode(code);
+                    signWithCredential(phoneAuthCredential);
                 }
 
             }
@@ -125,11 +137,15 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onVerificationFailed(FirebaseException e) {
 
+
                 mProgressBar.setVisibility(View.INVISIBLE);
-                if (e instanceof FirebaseAuthInvalidCredentialsException){
-                    Toast.makeText(PhoneAuth.this, "Invalid code: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                } else if (e instanceof FirebaseTooManyRequestsException){
-                    Toast.makeText(PhoneAuth.this, "Too many tries! " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    tV3.setText(getString(R.string.invalid_code));
+                    Log.e(TAG, "onVerificationFailed: ", e);
+                } else if (e instanceof FirebaseTooManyRequestsException) {
+                    tV3.setText(getString(R.string.too_many_tries));
+                    Log.e(TAG, "onVerificationFailed: ", e);
                 }
 
                 Toast.makeText(PhoneAuth.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -138,16 +154,11 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
     }
 
 
-
-
-
     //Code Verification
-    private void verifyCode(String code){
+    private void verifyCode(String code) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
         signWithCredential(credential);
     }
-
-
 
 
     //signIn using PhoneAuth
@@ -158,13 +169,33 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if(task.isSuccessful()){
+                        mProgressBar.setVisibility(View.INVISIBLE);
+
+
+                        if (task.isSuccessful() && task.getResult() != null) {
+
 
                             String phoneNumber = task.getResult().getUser().getPhoneNumber();
-                            mProgressBar.setVisibility(View.INVISIBLE);
+
+
                             if (phoneNumber != null) {
-                                rootRef.collection("uploaders").document(phoneNumber);
+
+                                String userId = mAuth.getCurrentUser().getUid();
+
+                                HashMap<String, String> hUser = new HashMap<>();
+                                hUser.put(KEY_NUMBER, phoneNumber);
+                                hUser.put(KEY_UID, userId);
+
+                                uploaderRef.document(phoneNumber).set(hUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (!task.isSuccessful()){
+                                            Toast.makeText(PhoneAuth.this, "Error at Server 505", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             }
+
                             Toast.makeText(PhoneAuth.this, "Verification Complete", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(PhoneAuth.this, AddDetailsActivity.class));
                             finish();
@@ -172,6 +203,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                         } else {
 
 
+                            tV3.setText(R.string.sign_fail);
                             Toast.makeText(PhoneAuth.this, "Please try again", Toast.LENGTH_LONG).show();
 
                         }
@@ -180,39 +212,57 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
     }
 
 
-
-
     @Override
     public void onClick(View v) {
 
         if (v == sendCodeButton) {
 
-            number = ccp.getFullNumberWithPlus();
-            if (!ccp.isValidFullNumber()) {
-                Toast.makeText(this, "Please Enter a Valid Phone Number", Toast.LENGTH_SHORT).show();
-            } else {
-                sendCode(number);
+            if (!anotherTry) {
+                number = ccp.getFullNumberWithPlus();
+                if (!ccp.isValidFullNumber()) {
+                    Toast.makeText(this, "Please Enter a Valid Phone Number", Toast.LENGTH_SHORT).show();
+                } else {
+                    sendCode(number);
+                    Toast.makeText(PhoneAuth.this, "Code sent to " + number, Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(PhoneAuth.this, "Code sent to " + number, Toast.LENGTH_SHORT).show();
-                startTimer();
-                tV3.setVisibility(View.VISIBLE);
-                pinView.setVisibility(View.VISIBLE);
-            }
+                    tV3.setVisibility(View.VISIBLE);
+                    tV3.setText(R.string.waiting_otp);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    pinView.setVisibility(View.VISIBLE);
 
-            if (v == verifyCode) {
-                String otp = pinView.getText().toString();
-                if (otp.length() < 6){
-                    Toast.makeText(this, "Invalid Code entered!", Toast.LENGTH_SHORT).show();
                 }
-                verifyCode(otp);
+            } else {
+                number = ccp.getFullNumberWithPlus();
+                if (!ccp.isValidFullNumber()) {
+                    Toast.makeText(this, "Please Enter a Valid Phone Number", Toast.LENGTH_SHORT).show();
+                } else {
+                    resendCode(number);
+                    Toast.makeText(PhoneAuth.this, "Code resent to " + number, Toast.LENGTH_SHORT).show();
 
+                    tV3.setVisibility(View.VISIBLE);
+                    tV3.setText(R.string.waiting_otp);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    pinView.setVisibility(View.VISIBLE);
+                }
             }
+        }
+
+
+        if (v == verifyCode) {
+            String otp = pinView.getText().toString();
+            if (otp.length() < 6) {
+                Toast.makeText(this, "Invalid Code entered!", Toast.LENGTH_SHORT).show();
+            }
+            verifyCode(otp);
+
         }
     }
 
     private void sendCode(String number) {
 
+        anotherTry = true;
         sendCodeButton.setEnabled(false);
+        startTimer();
 
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 number,
@@ -223,31 +273,60 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
         );
     }
 
+    private void resendCode(String number) {
 
-    private void startTimer(){
+        sendCodeButton.setEnabled(false);
+        startTimer();
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                number,
+                60,
+                TimeUnit.SECONDS,
+                this,
+                mCallBacks,
+                resendToken
+        );
+
+    }
+
+
+    private void startTimer() {
+
         countDownTimer = new CountDownTimer(timeLeftInMilliSec, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMilliSec = millisUntilFinished;
 
-                int seconds = (int) (timeLeftInMilliSec/1000);
+                int seconds = (int) (timeLeftInMilliSec / 1000);
 
                 String timeLeftText;
                 timeLeftText = "" + seconds;
-                if (seconds<10) timeLeftText = "0" + timeLeftText;
+                if (seconds < 10) timeLeftText = "0" + timeLeftText;
 
                 sendCodeButton.setText(timeLeftText);
                 sendCodeButton.setEnabled(false);
+
+                timerRunning = true;
             }
 
             @Override
             public void onFinish() {
+                timerRunning = false;
+                timeLeftInMilliSec = 60000;
                 sendCodeButton.setEnabled(true);
-                sendCodeButton.setText(R.string.send_code);
+
+                if (!anotherTry) {
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    tV3.setText(getString(R.string.try_again2));
+                    sendCodeButton.setText(R.string.send_code);
+                } else {
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    tV3.setText(getString(R.string.try_again));
+                    sendCodeButton.setText(R.string.resend_code);
+                }
             }
+
         }.start();
 
-        timerRunning = true;
     }
 
 
