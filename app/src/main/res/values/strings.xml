@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FindMe</string>
 
-
+    <string name="maps_apikey">AIzaSyC5s2VRnR20G9txddlIEkuOjTT8YGhDXV0</string>
 
     <string name="add_details">Add Details</string>
     <string name="add_missing_person">Add Missing/Lost Person</string>

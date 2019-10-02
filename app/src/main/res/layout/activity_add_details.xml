@@ -400,7 +400,9 @@
             android:paddingTop="8dp"
             android:paddingEnd="10dp"
             android:paddingBottom="8dp"
-            android:text="@string/add_location"/>
+            android:text="@string/add_location"
+            android:onClick="openMaps"
+            />
 
         <TextView
             android:id="@+id/add_name"

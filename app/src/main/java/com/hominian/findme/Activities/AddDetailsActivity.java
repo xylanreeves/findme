@@ -314,4 +314,8 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     }
 
 
+    public void openMaps(View view){
+        startActivity(new Intent(AddDetailsActivity.this, MapActivity.class));
+    }
+
 }

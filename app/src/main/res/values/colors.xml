@@ -11,7 +11,7 @@
     <color name="background_color">#F3F3F3</color>
     <color name="bg_color">#FFFFEB</color>
     <color name="text_color_dark">#4D4D4D</color>
-    <color name="text_color_light">#BBBBBB</color>
+    <color name="text_color_light">#585858</color>
     <color name="text_color_click_generic">#804D4D4D</color>
 
     <color name="button_pressed">#5C98FF</color>
