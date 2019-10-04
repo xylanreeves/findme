@@ -18,15 +18,15 @@
 
 
     <com.mancj.materialsearchbar.MaterialSearchBar
-        android:id="@+id/search_bar"
+        android:id="@+id/material_search_bar"
         style="@style/MaterialSearchBarLight"
+        app:mt_textColor="@color/text_color_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:mt_backIconDrawable="@drawable/ic_arrow_back"
         app:mt_hint="Search a place"
         app:mt_maxSuggestionsCount="10"
-        app:mt_navIconEnabled="false"
         app:mt_placeholder="Search a place"
         android:elevation="4dp"
         android:outlineProvider="bounds"

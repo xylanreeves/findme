@@ -46,7 +46,7 @@
         android:layout_height="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/tv3"
         app:layout_constraintStart_toEndOf="@+id/tv3"
         app:layout_constraintTop_toTopOf="@+id/tv3"
@@ -77,19 +77,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:gravity="center"
-        android:text="@string/signin_error"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pinview_id" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -154,16 +141,18 @@
 
         android:layout_marginTop="8dp"
         android:inputType="number"
-        android:itemBackground="@drawable/common_google_signin_btn_icon_light_normal_background"
+        android:itemBackground="@color/colorPrimary"
 
-        android:textColor="@color/text_color_dark"
+        android:textColor="@color/text_color_light"
+        android:textColorHint="@color/text_color_light"
+
         android:textSize="20sp"
 
         android:visibility="visible"
-
         app:itemCount="6"
         app:itemHeight="54dp"
-        app:itemSpacing="2dp"
+        app:itemRadius="3dp"
+        app:itemSpacing="8dp"
         app:itemWidth="54dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"

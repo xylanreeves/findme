@@ -97,6 +97,8 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
         verifyCode.setEnabled(false);
         tV3.setVisibility(View.INVISIBLE);
         pinView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+
 
         //Firebase_Stuff
         mAuth = FirebaseAuth.getInstance();
