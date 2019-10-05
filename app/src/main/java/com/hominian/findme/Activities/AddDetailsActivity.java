@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,10 +26,13 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.hominian.findme.Objects.Person;
+import com.hominian.findme.DataModels.PersonModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.hominian.findme.R;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class AddDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,23 +45,51 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     private ImageView img1, img2, img3, img4, img5;
     private ImageButton cancelBtn1, cancelBtn2, cancelBtn3, cancelBtn4, cancelBtn5;
     boolean img1Vacant, img2Vacant, img3Vacant, img4Vacant, img5Vacant;
-    private EditText editTextPhone;
+
 
     private Uri[] imageUriList;
     private int mView;
 
     //Firebase_instances
-    FirebaseAuth mAuth;
-    FirebaseUser mUser;
-    FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+    private FirebaseAuth.AuthStateListener authStateListener;
 
     //FirebaseFirestore_database
-    FirebaseFirestore rootRef;
+    private FirebaseFirestore rootRef;
 
 
+    private EditText name;
+    private EditText missingSince;
+    private EditText age;
+    private EditText gender;
+    private EditText personalityType;
+    private EditText height;
+    private EditText weight;
+    private EditText nationality;
+    private EditText moreDetails;
+    private EditText contactDetails;
+
+    private Button confirmButton;
 
 
     private void findViewIds() {
+
+        //EditTexts and Button
+        name = findViewById(R.id.enter_name_id);
+        missingSince = findViewById(R.id.missing_since_id);
+        age = findViewById(R.id.age_id);
+        gender = findViewById(R.id.gender_id);
+        personalityType = findViewById(R.id.personaility_id);
+        height = findViewById(R.id.height_id);
+        weight = findViewById(R.id.weight_id);
+        nationality = findViewById(R.id.nationality_id);
+        moreDetails = findViewById(R.id.details_id);
+        contactDetails = findViewById(R.id.contact_id);
+
+        confirmButton = findViewById(R.id.confirm_btn);
+
+
 
         //cardView_profile_images
         img1 = findViewById(R.id.img1);
@@ -72,6 +104,44 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
         cancelBtn3 = findViewById(R.id.cancelButton3);
         cancelBtn4 = findViewById(R.id.cancelButton4);
         cancelBtn5 = findViewById(R.id.cancelButton5);
+    }
+
+    public void confirm(View view){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Please confirm the Details in the next page")
+                .setNegativeButton("Go Back", null)
+                .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String mName = name.getText().toString().trim();
+                        String mMissingSince = missingSince.getText().toString().trim();
+                        String mAge = age.getText().toString().trim();
+                        String mGender = gender.getText().toString().trim();
+                        String mPersonalityType = personalityType.getText().toString().trim();
+                        String mHeight = height.getText().toString().trim();
+                        String mWeight = weight.getText().toString().trim();
+                        String mNationality = nationality.getText().toString().trim();
+                        String mDetails = moreDetails.getText().toString();
+                        String mContactDetail = contactDetails.getText().toString().trim();
+
+                        List<Uri> imageList = Arrays.asList(imageUriList);
+
+                        PersonModel mPerson = new PersonModel(mName, mMissingSince, mAge, mGender, mPersonalityType, mHeight, mWeight, mNationality, mDetails, mContactDetail, imageList);
+
+                        Intent confirmPageIntent = new Intent(AddDetailsActivity.this, ConfirmDetails.class);
+                        confirmPageIntent.putExtra("personData", mPerson);
+                        startActivity(confirmPageIntent);
+
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+
     }
 
 
@@ -98,7 +168,6 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
             }
         };
 
-        editTextPhone = findViewById(R.id.mobile_id);
         findViewIds();
 
         img1.setOnClickListener(this);
@@ -259,14 +328,6 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
 
 
 
-    private void uploadPerson(){
-        Person person = new Person();
-
-    }
-
-    public void clickNext(View view) {
-        Toast.makeText(this, "Fuck Off!", Toast.LENGTH_SHORT).show();
-    }
 
 
     public void askStoragePermission() {
@@ -314,8 +375,7 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     }
 
 
-    public void openMaps(View view){
-        startActivity(new Intent(AddDetailsActivity.this, MapActivity.class));
-    }
+
+
 
 }

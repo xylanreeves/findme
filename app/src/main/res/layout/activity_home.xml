@@ -10,7 +10,6 @@
 
 
     <RelativeLayout
-        android:id="@+id/rel_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,7 +21,6 @@
             android:elevation="4dp">
 
             <LinearLayout
-                android:id="@+id/toolbar_main"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
@@ -54,7 +52,6 @@
                         android:layout_marginStart="0dp" />
 
                     <ImageView
-                        android:id="@+id/logo_id"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_toLeftOf="@id/search_id"
@@ -136,7 +133,6 @@
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -148,7 +144,6 @@
 
 
             <ImageView
-                android:id="@+id/imageView3"
                 android:layout_width="0dp"
                 android:layout_height="194dp"
                 android:adjustViewBounds="false"
@@ -160,7 +155,6 @@
                 app:srcCompat="@drawable/blue_bg" />
 
             <TextView
-                android:id="@+id/donate_t"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"

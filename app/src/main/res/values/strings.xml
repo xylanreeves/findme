@@ -1,21 +1,12 @@
 <resources>
     <string name="app_name">FindMe</string>
 
-    <string name="maps_apikey">AIzaSyC5s2VRnR20G9txddlIEkuOjTT8YGhDXV0</string>
-
-    <string name="add_details">Add Details</string>
     <string name="add_missing_person">Add Missing/Lost Person</string>
 
-
-    <string name="preferences">Preferences</string>
-    <string name="search">Search</string>
-    <string name="drawer">Drawer</string>
 
     <!--Drawer-->
     <string name="terms_of_service">Terms Of Service</string>
     <string name="donate">Donate</string>
-    <string name="open_drawer">Open The Drawer</string>
-    <string name="close_drawer">Close The Drawer</string>
     <string name="about">About</string>
 
 
@@ -31,10 +22,6 @@
     <string name="enter_nationality">Enter Nationality</string>
     <string name="add_more_details">Add More Details</string>
     <string name="add_here">Add Here</string>
-    <string name="mob_no">Phone number</string>
-    <string name="enter_mobno">Enter Uploader\'s Phone number for Verification</string>
-    <string name="location_info">Location Information</string>
-    <string name="add_location">Add Location</string>
 
     <!--Donation addresses-->
     <string name="btc_address_wzr">3CHcXfZqdGDovhcUZcfzZN4RigU9awXS6E</string>
@@ -43,31 +30,33 @@
 
     <!--Phone Activity-->
     <string name="verify_phone">Verify Phone</string>
-    <string name="enter_otp">Enter OTP</string>
-    <string name="enter_phone">Enter Phone Number</string>
-    <string name="generate_otp">Receive Verification Code</string>
     <string name="verify_proceed">Verify and Proceed</string>
-    <string name="verify_otp">Verify OTP</string>
     <string name="enter_your_phone">Enter your phone number</string>
     <string name="tap_next">A Verification Code will be send to your Phone\nStandard SMS fees may apply</string>
-    <string name="enter_the_code">Enter the code that was sent to this number</string>
-    <string name="didnt_receive_the_code">Didn\'t receive the code?</string>
     <string name="resend_code">Resend code</string>
-    <string name="_0000">0000</string>
     <string name="finish">Finish</string>
     <string name="send_code">Send Code</string>
     <string name="auto_otp">Automatically verifying code…</string>
     <string name="waiting_otp">Waiting for code…</string>
     <string name="too_many_tries">Please try again after sometime</string>
     <string name="invalid_code">Invalid Code</string>
-    <string name="signin_error">Sign In Error! \nPlease Try Again</string>
     <string name="h_id">H.ID:</string>
     <string name="sign_out_id">Sign Out</string>
     <string name="guest_">Guest</string>
-    <string name="plz_try_again">Please try again</string>
     <string name="sign_fail">Sign In Failed</string>
     <string name="try_again2">Please try again afer some time</string>
     <string name="try_again">Try Again</string>
-    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="height">Height</string>
+    <string name="enter_height">Enter Height</string>
+    <string name="weight">Weight</string>
+    <string name="enter_weight">Enter Weight</string>
+    <string name="contact_details">Contact Details</string>
+    <string name="enter_contact">Enter Here</string>
+    <string name="missing_since">Missing Since</string>
+    <string name="dd_mm_yyyy">DD-MM-YYYY</string>
+    <string name="personality_type">Personality Type</string>
+    <string name="enter_personality_type">Enter Personality Type</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_details">Confirm Details</string>
 
 </resources>

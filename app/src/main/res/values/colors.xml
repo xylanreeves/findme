@@ -3,14 +3,9 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#4284F3</color>
     <color name="colorAccent">#4284F3</color>
-    <color name="apple_blue">#0A84FF</color>
-    <color name="blue">#4284F3</color>
-    <color name="green">#4CD964</color>
     <color name="textColorSelected">#804284F3</color>
     <color name="black">#000000</color>
     <color name="background_color">#F3F3F3</color>
-    <color name="bg_color">#FFFFEB</color>
-    <color name="text_color_dark">#4D4D4D</color>
     <color name="text_color_light">#6B6B6B</color>
     <color name="text_color_click_generic">#804D4D4D</color>
 
@@ -18,9 +13,6 @@
     <color name="button_disabled">#C5C5C5</color>
 
     <color name="text_clr">#4E4E4E</color>
-    <color name="click_colorblue">#724284F3</color>
 
     <color name="blue_transparent">#2976ADFF</color>
-    <color name="click_colorblack">#7E969696</color>
-    <color name="temp">#306DD2</color>
 </resources>
