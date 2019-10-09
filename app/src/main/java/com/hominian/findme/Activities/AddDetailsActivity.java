@@ -1,6 +1,7 @@
 package com.hominian.findme.Activities;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,6 +32,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.hominian.findme.R;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,7 +49,7 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     boolean img1Vacant, img2Vacant, img3Vacant, img4Vacant, img5Vacant;
 
 
-    private Uri[] imageUriList;
+    private Uri[] imageUriList = new Uri[5];
     private int mView;
 
     //Firebase_instances
@@ -71,6 +73,7 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     private EditText contactDetails;
 
     private Button confirmButton;
+
 
 
     private void findViewIds() {
@@ -109,7 +112,7 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     public void confirm(View view){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please confirm the Details in the next page")
+        builder.setMessage("Please confirm the details in the next page\nMake sure to check for any errors or improvement!")
                 .setNegativeButton("Go Back", null)
                 .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
                     @Override
@@ -126,8 +129,13 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
                         String mDetails = moreDetails.getText().toString();
                         String mContactDetail = contactDetails.getText().toString().trim();
 
-                        List<Uri> imageList = Arrays.asList(imageUriList);
 
+                        List<Uri> imageList = new ArrayList<>();
+                        for (Uri u : imageUriList) {
+                           if (u != null) {
+                               imageList.add(u);
+                           }
+                        }
                         PersonModel mPerson = new PersonModel(mName, mMissingSince, mAge, mGender, mPersonalityType, mHeight, mWeight, mNationality, mDetails, mContactDetail, imageList);
 
                         Intent confirmPageIntent = new Intent(AddDetailsActivity.this, ConfirmDetails.class);
@@ -170,6 +178,9 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
 
         findViewIds();
 
+
+        missingSince.setOnClickListener(this);
+
         img1.setOnClickListener(this);
         img2.setOnClickListener(this);
         img3.setOnClickListener(this);
@@ -194,6 +205,8 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+
+
 
         if (v == img1) {
             if (imageUriList[0] == null) {

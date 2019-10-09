@@ -6,7 +6,8 @@
     <color name="textColorSelected">#804284F3</color>
     <color name="black">#000000</color>
     <color name="background_color">#F3F3F3</color>
-    <color name="text_color_light">#6B6B6B</color>
+    <color name="text_color_light">#B36B6B6B</color>
+    <color name="line_color_light">#4D9C9C9C</color>
     <color name="text_color_click_generic">#804D4D4D</color>
 
     <color name="button_pressed">#5C98FF</color>

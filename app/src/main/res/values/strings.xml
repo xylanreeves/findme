@@ -15,13 +15,36 @@
     <string name="name">Name</string>
     <string name="enter_name">Enter Name</string>
     <string name="age">Age</string>
-    <string name="enter_age">Enter Age</string>
+    <string name="enter_age">Enter Age (In Years) </string>
     <string name="gender">Gender</string>
     <string name="enter_gender">Enter Gender</string>
     <string name="nationality">Nationality</string>
     <string name="enter_nationality">Enter Nationality</string>
     <string name="add_more_details">Add More Details</string>
-    <string name="add_here">Add Here</string>
+    <string name="add_here">Add More Specific Details</string>
+    <string name="height">Height</string>
+    <string name="enter_height">Enter Height With Units, e.g., 6.1 ft or 182 cm</string>
+    <string name="weight">Weight</string>
+    <string name="enter_weight">Enter Weight With Units, e.g, 68 kgs or 150 lbs</string>
+    <string name="contact_details">Contact Details</string>
+    <string name="enter_contact">Enter Here</string>
+    <string name="missing_since">Missing Since</string>
+    <string name="dd_mm_yyyy">DD-MM-YYYY</string>
+    <string name="personality_type">Personality Type</string>
+    <string name="enter_personality_type">Enter Personality Type, e.g., ISTJ, ENFP etc</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_details">Confirm Details</string>
+
+
+    //confirm page
+    <string name="eye_color">Eye Color:</string>
+    <string name="height_">Height:</string>
+    <string name="weight_">Weight:</string>
+    <string name="personality_">Personality Type:</string>
+    <string name="missing_since_">Missing Since:</string>
+    <string name="published_on_">Published On:</string>
+    <string name="contact_detail_">Contact Detail:</string>
+    <string name="set_date">Set Date</string>
 
     <!--Donation addresses-->
     <string name="btc_address_wzr">3CHcXfZqdGDovhcUZcfzZN4RigU9awXS6E</string>
@@ -44,19 +67,9 @@
     <string name="sign_out_id">Sign Out</string>
     <string name="guest_">Guest</string>
     <string name="sign_fail">Sign In Failed</string>
-    <string name="try_again2">Please try again afer some time</string>
+    <string name="try_again2">Please try again after some time</string>
     <string name="try_again">Try Again</string>
-    <string name="height">Height</string>
-    <string name="enter_height">Enter Height</string>
-    <string name="weight">Weight</string>
-    <string name="enter_weight">Enter Weight</string>
-    <string name="contact_details">Contact Details</string>
-    <string name="enter_contact">Enter Here</string>
-    <string name="missing_since">Missing Since</string>
-    <string name="dd_mm_yyyy">DD-MM-YYYY</string>
-    <string name="personality_type">Personality Type</string>
-    <string name="enter_personality_type">Enter Personality Type</string>
-    <string name="confirm">Confirm</string>
-    <string name="confirm_details">Confirm Details</string>
+    <string name="e_g_2011">E.g., 2011</string>
+
 
 </resources>

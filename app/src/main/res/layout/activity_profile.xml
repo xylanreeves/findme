@@ -5,15 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.smarteist.autoimageslider.SliderView
         android:id="@+id/imageViewPager"
         android:layout_width="0dp"
-        android:layout_height="320dp"
+        android:layout_height="440dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgView555"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            />
+
+    </com.smarteist.autoimageslider.SliderView>
 
     <TextView
         android:id="@+id/nameTextView"

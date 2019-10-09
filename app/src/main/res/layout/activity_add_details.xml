@@ -311,7 +311,8 @@
             android:textColor="@color/text_color_light"
             android:textSize="15sp"
             android:inputType="textPersonName"
-            />
+            android:capitalize="words"
+            tools:ignore="Deprecated" />
 
 
         <EditText
@@ -325,7 +326,10 @@
             android:singleLine="true"
             android:textColor="@color/text_color_light"
             android:textSize="15sp"
-            android:inputType="numberDecimal"/>
+            android:textAllCaps="false"
+            android:inputType="numberDecimal"
+
+            />
 
         <EditText
             android:id="@+id/missing_since_id"
@@ -333,12 +337,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/missing_since_tv"
             android:background="@color/colorPrimary"
-            android:hint="@string/dd_mm_yyyy"
+            android:hint="@string/e_g_2011"
             android:padding="12dp"
             android:singleLine="true"
             android:textColor="@color/text_color_light"
             android:textSize="15sp"
-            android:inputType="date"/>
+
+            />
 
         <EditText
             android:id="@+id/gender_id"
@@ -404,7 +409,9 @@
             android:padding="12dp"
             android:singleLine="true"
             android:textColor="@color/text_color_light"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            />
 
         <TextView
             android:id="@+id/weight_tv"
@@ -429,7 +436,9 @@
             android:padding="12dp"
             android:singleLine="true"
             android:textColor="@color/text_color_light"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            />
 
 
         <EditText
@@ -458,7 +467,9 @@
             android:paddingBottom="64dp"
             android:textColor="@color/text_color_light"
             android:textSize="15sp"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry"
+            android:inputType="textCapSentences"
+            />
 
         <EditText
             android:id="@+id/contact_id"
@@ -467,7 +478,6 @@
             android:layout_below="@+id/mobile_no_tv"
             android:background="@color/colorPrimary"
             android:hint="@string/enter_contact"
-            android:maxLines="10"
             android:padding="12dp"
             android:singleLine="true"
             android:textColor="@color/text_color_light"
