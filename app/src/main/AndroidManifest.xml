@@ -17,9 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ConfirmDetails"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".Activities.AddDetailsActivity"/>
+        <activity android:name=".Activities.TermsActivity"></activity>
+        <activity
+            android:name=".Activities.ConfirmDetails"
+            android:parentActivityName=".Activities.AddDetailsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.PhoneAuth"
             android:parentActivityName=".Activities.MainActivity"

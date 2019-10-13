@@ -241,6 +241,7 @@
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:onClick="openTerms"
                 android:text="@string/terms_of_service"
                 android:textColor="@drawable/text_selector_generic"
                 app:layout_constraintBottom_toTopOf="@+id/textView2"

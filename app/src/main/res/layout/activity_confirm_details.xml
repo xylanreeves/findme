@@ -7,13 +7,13 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    tools:context=".Activities.ConfirmDetails"
     >
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".Activities.ConfirmDetails"
     android:background="@color/background_color"
     >
 
@@ -33,7 +33,7 @@
     <LinearLayout
         android:id="@+id/image_layout"
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="480dp"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
         android:background="@color/line_color_light"
@@ -96,6 +96,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@id/image_layout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         >
 
         <LinearLayout
@@ -103,8 +105,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:orientation="horizontal"
             tools:ignore="ObsoleteLayoutParam">
 
@@ -112,8 +112,6 @@
                 android:id="@+id/nameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:paddingBottom="4dp"
                 android:text="Name,"
                 android:textSize="24sp"
@@ -123,6 +121,7 @@
                 android:id="@+id/ageTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
                 android:paddingBottom="4dp"
                 android:text="16"
                 android:textSize="24sp"
@@ -142,8 +141,6 @@
             android:id="@+id/genderTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:text="Male,"
             android:textSize="18sp" />
 
@@ -163,14 +160,13 @@
         android:id="@+id/missing_since_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <TextView
-            android:id="@+id/missing_since_id"
+            android:id="@+id/missing_since_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:text="@string/missing_since_"
             android:textSize="18sp" />
 
@@ -178,10 +174,9 @@
             android:id="@+id/missing_sinceTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
             android:paddingEnd="8dp"
             android:paddingRight="8dp"
+            android:paddingLeft="4dp"
             android:text="16 dec 1998"
             android:textSize="18sp"
             tools:ignore="RtlSymmetry" />
@@ -191,44 +186,49 @@
     </LinearLayout>
 
 
-
+<LinearLayout
+    android:id="@+id/layout_detail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_below="@id/micro_details"
+    android:layout_marginTop="32dp"
+    >
     <TextView
         android:id="@+id/details_"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="16dp"
-        android:layout_below="@id/micro_details"
-        android:layout_marginTop="32dp"
-        android:text="Details: "
+        android:text="@string/details_"
         android:textSize="16sp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         />
 
 
     <TextView
         android:id="@+id/detailTv"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_below="@id/details_"
+        android:layout_height="184dp"
         android:layout_marginTop="4dp"
         android:background="@color/colorPrimary"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="64dp"
+        android:paddingBottom="16dp"
         android:text="Details goes here"
         android:textSize="16sp"
         />
 
+</LinearLayout>
+
     <LinearLayout
         android:id="@+id/contact_layout_"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/detailTv"
+        android:layout_below="@id/layout_detail"
         android:orientation="vertical"
         android:layout_marginTop="64dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="120dp"
         android:layout_centerHorizontal="true">
 
         <TextView
@@ -236,34 +236,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/contact_detail_"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textAlignment="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:paddingBottom="4dp"
+            android:paddingRight="8dp"
+            />
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/contact_tv_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/contact_layout_"
-        android:layout_marginBottom="240dp"
-        android:layout_centerHorizontal="true"
-        >
 
         <TextView
             android:id="@+id/contactTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:text="contact here"
-            android:textAlignment="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:textSize="16sp"
             />
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/upload_button"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_below="@id/contact_layout_"
+        android:background="@drawable/button_state_generic"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/confirm"
+        android:onClick="showDisclaimerDialog"
+        android:textColor="@color/colorPrimary"
+        android:textSize="14sp"
+        android:layout_alignParentBottom="true"
+
+        />
 
 
     <LinearLayout
@@ -281,13 +292,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp">
 
             <TextView
                 android:id="@+id/eye_color_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
 
                 android:paddingBottom="2dp"
                 android:text="@string/eye_color"
@@ -311,13 +322,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp">
 
             <TextView
                 android:id="@+id/height_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
 
                 android:paddingBottom="2dp"
                 android:text="@string/height_"
@@ -341,14 +352,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp">
 
             <TextView
                 android:id="@+id/weight_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-
                 android:paddingBottom="2dp"
                 android:text="@string/weight_"
                 android:textSize="16sp" />
@@ -375,14 +385,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp">
 
             <TextView
                 android:id="@+id/personality_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:paddingBottom="2dp"
                 android:text="@string/personality_"
                 android:textSize="16sp" />
@@ -391,12 +400,12 @@
                 android:id="@+id/personalityTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
+                android:paddingLeft="4dp"
                 android:paddingEnd="8dp"
                 android:paddingRight="8dp"
                 android:text="INJF"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:paddingStart="4dp" />
 
 
 

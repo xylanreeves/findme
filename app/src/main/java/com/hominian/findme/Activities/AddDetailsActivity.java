@@ -1,7 +1,6 @@
 package com.hominian.findme.Activities;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,7 +32,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import com.hominian.findme.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AddDetailsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -71,6 +69,7 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     private EditText nationality;
     private EditText moreDetails;
     private EditText contactDetails;
+    private EditText eyeColor;
 
     private Button confirmButton;
 
@@ -80,7 +79,7 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
 
         //EditTexts and Button
         name = findViewById(R.id.enter_name_id);
-        missingSince = findViewById(R.id.missing_since_id);
+        missingSince = findViewById(R.id.missing_id);
         age = findViewById(R.id.age_id);
         gender = findViewById(R.id.gender_id);
         personalityType = findViewById(R.id.personaility_id);
@@ -89,6 +88,7 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
         nationality = findViewById(R.id.nationality_id);
         moreDetails = findViewById(R.id.details_id);
         contactDetails = findViewById(R.id.contact_id);
+        eyeColor = findViewById(R.id.eye_id);
 
         confirmButton = findViewById(R.id.confirm_btn);
 
@@ -128,7 +128,7 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
                         String mNationality = nationality.getText().toString().trim();
                         String mDetails = moreDetails.getText().toString();
                         String mContactDetail = contactDetails.getText().toString().trim();
-
+                        String mEyeColor = eyeColor.getText().toString().trim();
 
                         List<Uri> imageList = new ArrayList<>();
                         for (Uri u : imageUriList) {
@@ -136,7 +136,8 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
                                imageList.add(u);
                            }
                         }
-                        PersonModel mPerson = new PersonModel(mName, mMissingSince, mAge, mGender, mPersonalityType, mHeight, mWeight, mNationality, mDetails, mContactDetail, imageList);
+                        PersonModel mPerson = new PersonModel(mName, mMissingSince, mAge, mGender, mEyeColor, mPersonalityType,
+                                mHeight, mWeight, mNationality, mDetails, mContactDetail, imageList);
 
                         Intent confirmPageIntent = new Intent(AddDetailsActivity.this, ConfirmDetails.class);
                         confirmPageIntent.putExtra("personData", mPerson);

@@ -70,6 +70,48 @@
     <string name="try_again2">Please try again after some time</string>
     <string name="try_again">Try Again</string>
     <string name="e_g_2011">E.g., 2011</string>
+    <string name="no_name">No Name</string>
+    <string name="eye_color_">Eye Color</string>
+    <string name="enter_eye_color">Enter Eye Color</string>
+    <string name="details_">Details:</string>
+    <string name="next">Next</string>
+
+    <!--Terms Of Service-->
+    <string name="terms_conditions">
+        As a condition of use, you promise not to use the Service for any purpose that is unlawful or prohibited by these Terms, or any other purpose not reasonably intended by FindMe. By way of example, and not as a limitation, you agree not to use the Service:
+        \n\n• To abuse, harass, threaten, impersonate or intimidate any person;
+        \n\n• To post or transmit, or cause to be posted or transmitted, any content that is libelous, defamatory, obscene, pornographic, abusive, offensive, profane, or that infringes any copyright or other right of any person;
+        \n\n• To communicate FindMe representative or other users in an abusive or offensive manner;
+        \n\n• For any purpose (including posting or viewing Content) that is not permitted under the laws of the jurisdiction where you use the Services;
+        \n\n• To post or transmit, or cause to be posted or transmitted, any Communication designed or intended to obtain password, account, or private information from any FindMe user;
+        \n\n• To create or transmit UNWANTED \'Spam\' to any person or any URL;
+        \n\n• To create multiple accounts for the purpose of forgery;
+        \n\n• Systematically retrieve data or other content from the Site to create or compile, directly or indirectly, a collection, compilation, database, or directory without written permission from us;
+        \n\n• Make any unauthorized use of the Site, including collecting usernames and/or email addresses of users by electronic or other means for the purpose of sending unsolicited email, or creating user accounts by automated means or under false pretenses;
+        \n\n• Use the Site to advertise or offer to sell goods and services;
+        \n\n• Circumvent, disable, or otherwise interfere with security-related features of the Site, including features that prevent or restrict the use or copying of any Content or enforce limitations on the use of the Site and/or the Content contained therein;
+        \n\n• Engage in unauthorized framing of or linking to the Site;
+        \n\n• Trick, defraud, or mislead us and other users, especially in any attempt to learn sensitive account information such as user passwords;
+        \n\n• Make improper use of our support services or submit false reports of abuse or misconduct;
+        \n\n• Engage in any automated use of the system, such as using scripts to send comments or messages, or using any data mining, robots, or similar data gathering and extraction tools;
+        \n\n• Interfere with, disrupt, or create an undue burden on the App or the networks or services connected to the App;
+        \n\n• Attempt to impersonate another user or person or use the username of another user;
+        \n\n• Use any information obtained from the Site in order to harass, abuse, or harm another person;
+        \n\n• Use the App as part of any effort to compete with us or otherwise use the App and/or the Content for any revenue-generating endeavor or commercial enterprise;
+        \n\n• Decipher, decompile, disassemble, or reverse engineer any of the software comprising or in any way making up a part of the App;
+        \n\n• Attempt to bypass any measures of the App designed to prevent or restrict access to the App, or any portion of the Site;
+        \n\n• Copy or adapt the App’s software, including but not limited to JAVA, HTML, XML, or other code and APIs;
+        \n\n• Upload or transmit (or attempt to upload or to transmit) viruses, Trojan horses, or other material, including excessive use of capital letters and spamming (continuous posting of repetitive text), that interferes with any party’s uninterrupted use and enjoyment of the Site or modifies, impairs, disrupts, alters, or interferes with the use, features, functions, operation, or maintenance of the App;
+        \n\n• Disparage, tarnish, or otherwise harm, in our opinion, us and/or the App.
+
+
+    </string>
+    <string name="terms_of_services_u"><u>Terms of Service</u></string>
+    <string name="by_clicking_upload">By clicking Upload, you agree to the following:</string>
+    <string name="our_">• Our</string>
+    <string name="go_back_">Go Back</string>
+    <string name="upload_">Upload</string>
+    <string name="best_of_my_knowledge">• All the information provided by you is true and correct to the best of your knowledge and belief.</string>
 
 
 </resources>
