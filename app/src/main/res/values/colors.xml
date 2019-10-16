@@ -13,7 +13,10 @@
     <color name="button_pressed">#5C98FF</color>
     <color name="button_disabled">#C5C5C5</color>
 
+    <color name="red_primary">#DB4437</color>
     <color name="text_clr">#4E4E4E</color>
+
+    <color name="green_primary">#0F9D58</color>
 
     <color name="blue_transparent">#2976ADFF</color>
 </resources>

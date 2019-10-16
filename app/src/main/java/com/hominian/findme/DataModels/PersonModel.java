@@ -5,9 +5,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.firestore.Exclude;
 
 import java.util.List;
 
+@IgnoreExtraProperties
 public class PersonModel implements Parcelable{
 
 
@@ -23,7 +26,7 @@ public class PersonModel implements Parcelable{
     private String nationality;
     private String details;
     private String contactDetails;
-    private List<Uri> imageList;
+    @Exclude private List<Uri> imageList;
     private List<String> imageDownloadUrls;
     private Timestamp timeStamp;
     private String uploaderId;

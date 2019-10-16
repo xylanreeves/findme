@@ -460,7 +460,7 @@
             android:layout_below="@id/enter_details_tv"
             android:background="@color/colorPrimary"
             android:hint="@string/add_here"
-            android:maxLines="100"
+            android:maxLines="150"
             android:paddingStart="12dp"
             android:paddingLeft="12dp"
             android:paddingTop="12dp"
@@ -468,7 +468,6 @@
             android:textColor="@color/text_color_light"
             android:textSize="15sp"
             tools:ignore="RtlSymmetry"
-            android:inputType="textCapSentences"
             />
 
         <EditText
@@ -479,7 +478,6 @@
             android:background="@color/colorPrimary"
             android:hint="@string/enter_contact"
             android:padding="12dp"
-            android:singleLine="true"
             android:textColor="@color/text_color_light"
             android:textSize="15sp" />
 

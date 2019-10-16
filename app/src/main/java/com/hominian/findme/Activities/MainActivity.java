@@ -12,37 +12,45 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.hominian.findme.Adapters.RecyclerViewAdapter;
-import com.hominian.findme.DataModels.GridModel;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.hominian.findme.Adapters.ProfileAdapter;
+import com.hominian.findme.DataModels.PersonModel;
 import com.hominian.findme.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    List<GridModel> mList;
-    FirebaseAuth mAuth;
-    FirebaseAuth.AuthStateListener authStateListener;
-    FirebaseUser mUser;
-    TextView id, numId, signOutBtn;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseUser mUser;
+    private TextView id;
+    private TextView numId;
+    private TextView signOutBtn;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference findsReference = db.collection("finds");
+
+    private ProfileAdapter profileAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        initList();
-        initRecyclerView();
 
         signOutBtn = findViewById(R.id.sign_out_id);
+        id = findViewById(R.id.textView_id);
+        numId = findViewById(R.id.textView_number);
 
         mAuth = FirebaseAuth.getInstance();
         authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -54,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        id = findViewById(R.id.textView_id);
-        numId = findViewById(R.id.textView_number);
+
         if (mAuth.getCurrentUser() != null){
             numId.setText(mAuth.getCurrentUser().getPhoneNumber());
             numId.setVisibility(View.VISIBLE);
@@ -65,39 +72,49 @@ public class MainActivity extends AppCompatActivity {
             signOutBtn.setVisibility(View.INVISIBLE);
         }
 
+
+        InitRecyclerView();
+
+        profileAdapter.setOnItemClickListener(new ProfileAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+
+                PersonModel mPerson = documentSnapshot.toObject(PersonModel.class);
+
+                Intent mIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                mIntent.putExtra("mPerson", mPerson);
+                startActivity(mIntent);
+            }
+        });
+
     }
 
+    private void InitRecyclerView() {
+    Query query = findsReference.orderBy("timeStamp", Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<PersonModel> options = new FirestoreRecyclerOptions.Builder<PersonModel>()
+                .setQuery(query, PersonModel.class)
+                .build();
 
-    public void initList(){
-
-        mList = new ArrayList<>();
-        mList.add(new GridModel("No Name", "detail", R.drawable.dp, 12));
-        mList.add(new GridModel("No Name", "detail", R.drawable.dp,9));
-        mList.add(new GridModel("Phoebe", "TomGirl", R.drawable.dp, 24));
-        mList.add(new GridModel("Kristen", "details", R.drawable.dp, 30));
-        mList.add(new GridModel("Kate", "detail", R.drawable.dp, 26));
-        mList.add(new GridModel("No Name", "detail", R.drawable.dp, 12));
-
-    }
-
-
-
-    public void initRecyclerView(){
-
-
+        profileAdapter = new ProfileAdapter(options);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewId);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        recyclerView.setAdapter(new RecyclerViewAdapter(this, mList));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(profileAdapter);
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
-
+        profileAdapter.startListening();
         mAuth.addAuthStateListener(authStateListener);
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        profileAdapter.stopListening();
     }
 
     //Clicks

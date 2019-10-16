@@ -8,9 +8,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +20,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -80,49 +85,30 @@ public class ConfirmDetails extends AppCompatActivity {
     private PersonModel person;
 
     private List<Uri> imageList;
-    private List<String> imageDownnloadUrls;
+    private List<String> imageDownloadUrls;
 
     private SliderView sliderView;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore rootRef;
-    private CollectionReference finds;
+    private DocumentReference findsRef;
+    private CollectionReference mUploaders;
     private StorageReference mStorageReference;
+    private StorageReference imagesDocument;
 
-    int counter;
+
+    int countDown;
     Bitmap image_bitmap;
 
+    //dialog_views
     Dialog disclaimerDialog;
-
-
-    private void initFindViewByIds(){
-
-        nameTv = findViewById(R.id.nameTv);
-        ageTv = findViewById(R.id.ageTv);
-        genderTv = findViewById(R.id.genderTv);
-        nationalityTv = findViewById(R.id.nationalityTv);
-        missingSinceTv = findViewById(R.id.missing_sinceTv);
-        eyeColorTv = findViewById(R.id.eyeTv);
-        heightTv = findViewById(R.id.heightTv);
-        weightTv = findViewById(R.id.weightTv);
-        personalityTv = findViewById(R.id.personalityTv);
-        publishedOnTv = findViewById(R.id.pubished_onTv);
-        detailsTv = findViewById(R.id.detailTv);
-        contactsTv = findViewById(R.id.contactTv);
-
-
-        publishedOnField = findViewById(R.id.pb_);
-        missingSinceField = findViewById(R.id.missing_since_field);
-        eyeColorField = findViewById(R.id.eye_color_);
-        heightField = findViewById(R.id.height_);
-        weightField = findViewById(R.id.weight_);
-        personalityField = findViewById(R.id.personality_);
-        detailsField = findViewById(R.id.details_);
-        contactsField = findViewById(R.id.contact_);
-
-        uploadButton = findViewById(R.id.upload_button);
-
-    }
+    TextView mTerms;
+    Button mBAck;
+    Button mUpload;
+    ProgressBar mProgressBar;
+    TextView errorTv;
+    ProgressBar progressHorizontal;
+    private int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,11 +126,13 @@ public class ConfirmDetails extends AppCompatActivity {
         rootRef = FirebaseFirestore.getInstance();
         mStorageReference = FirebaseStorage.getInstance().getReference();
 
-        imageDownnloadUrls = new ArrayList<>();
+
+        imageDownloadUrls = new ArrayList<>();
 
         initFindViewByIds();
 
-        disclaimerDialog = new Dialog(this);
+        //Upload_dialog_init
+        initDialog();
 
 
         person = getIntent().getParcelableExtra("personData");
@@ -154,11 +142,10 @@ public class ConfirmDetails extends AppCompatActivity {
         }
 
 
-        sliderView = findViewById(R.id.imageSlider);
+        sliderView = findViewById(R.id.imageSlider_);
         sliderView.setSliderAdapter(new SliderAdapter(this, imageList));
         sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-
 
 
         initLayout();
@@ -166,17 +153,17 @@ public class ConfirmDetails extends AppCompatActivity {
 
     }
 
-    public void showDisclaimerDialog(View view){
+    private void initDialog() {
 
-        TextView mTerms;
-        Button mBAck;
-        Button mUpload;
-
+        disclaimerDialog = new Dialog(this);
         disclaimerDialog.setContentView(R.layout.disclaimer_dialog);
-
         mTerms = disclaimerDialog.findViewById(R.id.termsTv);
         mBAck = disclaimerDialog.findViewById(R.id.back_btn);
         mUpload = disclaimerDialog.findViewById(R.id.upload_btn);
+        mProgressBar = disclaimerDialog.findViewById(R.id.mBar);
+        errorTv = disclaimerDialog.findViewById(R.id.error_text);
+        progressHorizontal = disclaimerDialog.findViewById(R.id.progress_h);
+
 
         mTerms.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,37 +186,121 @@ public class ConfirmDetails extends AppCompatActivity {
             }
         });
 
+
         disclaimerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        disclaimerDialog.show();
 
     }
 
 
-    private void uploadDetails(){
+    @SuppressLint("SetTextI18n")
+    private void uploadDetails() {
+
+        errorTv.setVisibility(View.VISIBLE);
+        mUpload.setVisibility(View.INVISIBLE);
+        mBAck.setEnabled(false);
+        mProgressBar.setVisibility(View.VISIBLE);
+        disclaimerDialog.setCancelable(false);
 
 
-        finds = rootRef.collection("finds");
-        String pId = finds.getId();
-        StorageReference imagesDocument = mStorageReference.child("person_images");
+        findsRef = rootRef.collection("finds").document();
+        mUploaders = rootRef.collection("uploaders");
+        final String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
 
 
-
-        counter = 1;
 
         if (imageList.size() != 0) {
-            for (Uri uri : imageList) {
 
-                File imageFile = new File(uri.getPath());
+            errorTv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            disclaimerDialog.setCancelable(false);
 
+            errorTv.setText("Please Wait...");
+            errorTv.setVisibility(View.VISIBLE);
+
+            PersonModel mPerson = new PersonModel(person.getName(), findsRef.getId(), person.getMissingSince(), person.getAge(), person.getGender(),
+                    person.getEyeColor(), person.getPersonality(), person.getHeight(), person.getWeight(), person.getNationality(),
+                    person.getDetails(), person.getContactDetails(), imageDownloadUrls, Timestamp.now(), phoneNumber);
+
+            findsRef.set(mPerson).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        mUploaders.document(phoneNumber).update("finds", FieldValue.arrayUnion(findsRef.getId()));
+                        uploadImages();
+                    } else {
+                        errorTv.setText("Please try again after some time");
+                    }
+                }
+            });
+
+        } else {
+
+            //user has not uploaded a single image
+            //continue without images
+
+            errorTv.setText("Uploading...");
+            errorTv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            errorTv.setVisibility(View.VISIBLE);
+
+            final PersonModel mPerson = new PersonModel(person.getName(), findsRef.getId(), person.getMissingSince(), person.getAge(), person.getGender(),
+                    person.getEyeColor(), person.getPersonality(), person.getHeight(), person.getWeight(), person.getNationality(),
+                    person.getDetails(), person.getContactDetails(), imageDownloadUrls, Timestamp.now(), phoneNumber);
+
+            findsRef.set(mPerson).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+
+
+                        mUploaders.document(phoneNumber).update("finds", FieldValue.arrayUnion(findsRef.getId()));
+                        Toast.makeText(ConfirmDetails.this, "Upload Successful!", Toast.LENGTH_LONG).show();
+
+                        Intent mIntent = new Intent(ConfirmDetails.this, MainActivity.class);
+                        startActivity(mIntent);
+                        finish();
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        errorTv.setText("Upload Successful!");
+                        errorTv.setTextColor(getResources().getColor(R.color.green_primary));
+                        mUpload.setEnabled(false);
+                        mUpload.setVisibility(View.VISIBLE);
+                    } else {
+                        errorTv.setText("Server Error!\nPlease try again");
+                        errorTv.setTextColor(getResources().getColor(R.color.quantum_googred));
+                        errorTv.setVisibility(View.VISIBLE);
+                        mUpload.setVisibility(View.VISIBLE);
+                        mBAck.setEnabled(true);
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        disclaimerDialog.setCancelable(true);
+                    }
+                }
+            });
+        }
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private void uploadImages() {
+
+        imagesDocument = mStorageReference.child("person_images");
+
+        errorTv.setText("Processing Images...");
+
+        for (int i = 0; i < imageList.size(); i++) {
+
+            final int inf = i;
+
+            if (imageList.get(i).getPath() != null) {
+                File imageFile = new File(imageList.get(i).getPath());
 
                 try {
                     image_bitmap = new Compressor(this)
-                                .setQuality(75)
-                                .setCompressFormat(Bitmap.CompressFormat.WEBP)
-                                .compressToBitmap(imageFile);
+                            .setQuality(75)
+                            .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                            .compressToBitmap(imageFile);
 
                 } catch (IOException e) {
                     e.printStackTrace();
+                    Toast.makeText(this, "ImageCompression failed!" + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -237,74 +308,78 @@ public class ConfirmDetails extends AppCompatActivity {
                 byte[] imageByte = baos.toByteArray();
 
 
-                UploadTask uploadTask = imagesDocument.child(pId).child("image" + counter +".webp").putBytes(imageByte);
-                uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                UploadTask uploadTask = imagesDocument.child(findsRef.getId()).child("image" + inf + ".webp").putBytes(imageByte);
+
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()){
-                            if (task.getResult() != null){
-                                imageDownnloadUrls.add(task.getResult().toString());
-                                counter++;
-                            }
-                        } else {
-                            Toast.makeText(ConfirmDetails.this, "Error uploading images!", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "Image Upload Error! : " + task.getException());
-                        }
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+
+                        imagesDocument.child(findsRef.getId()).child("image" + inf + ".webp")
+                                .getDownloadUrl()
+                                .addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Uri> task) {
+
+                                        if (task.isSuccessful()){
+                                        findsRef.update("imageDownloadUrls", FieldValue.arrayUnion(task.getResult().toString()));
+                                        counter++;
+                                        errorTv.setText("Uploading image "+(inf +1)+"/"+imageList.size());
+                                        errorTv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                                        errorTv.setVisibility(View.VISIBLE);
+
+                                        } else  {
+                                            Toast.makeText(ConfirmDetails.this, "ImageUrl Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        counter++;
+                        Toast.makeText(ConfirmDetails.this, "Error uploading image " + inf, Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
-            }
+                if (inf == imageList.size()-1) {
 
 
-            if(counter == imageList.size()){
+                    CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            countDown = (int) (millisUntilFinished / 1000);
 
-                PersonModel mPerson = new PersonModel(person.getName(), finds.getId(), person.getMissingSince(), person.getAge(), person.getGender(),
-                        person.getEyeColor(), person.getPersonality(), person.getHeight(), person.getWeight(), person.getNationality(),
-                        person.getDetails(), person.getContactDetails(), imageDownnloadUrls, Timestamp.now(), mAuth.getCurrentUser().getUid());
+                            errorTv.setText("Upload Successful!\nRedirecting to Home in " + countDown);
+                            errorTv.setTextColor(getResources().getColor(R.color.green_primary));
+                        }
 
-                finds.add(mPerson).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if (task.isSuccessful()){
+                        @Override
+                        public void onFinish() {
+                            countDown = 0;
+                        }
+                    }.start();
 
-                            Toast.makeText(ConfirmDetails.this, "Upload Successful!", Toast.LENGTH_LONG).show();
+                    mProgressBar.setVisibility(View.INVISIBLE);
 
-                            Intent mIntent = new Intent(ConfirmDetails.this, MainActivity.class);
-                            startActivity(mIntent);
+                    mUpload.setEnabled(false);
+                    mUpload.setVisibility(View.VISIBLE);
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(ConfirmDetails.this, MainActivity.class));
                             finish();
-
-                        } else {
-                            Toast.makeText(ConfirmDetails.this, "Upload Error, Please Try again!", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
-            }
+                    }, 10000);
 
-        } else {
-            //imageList == 0
-            //then-->
-            PersonModel mPerson = new PersonModel(person.getName(), finds.getId(), person.getMissingSince(), person.getAge(), person.getGender(),
-                    person.getEyeColor(), person.getPersonality(), person.getHeight(), person.getWeight(), person.getNationality(),
-                    person.getDetails(), person.getContactDetails(), imageDownnloadUrls, Timestamp.now(), mAuth.getCurrentUser().getUid());
 
-            finds.add(mPerson).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentReference> task) {
-                    if (task.isSuccessful()){
-
-                        Toast.makeText(ConfirmDetails.this, "Upload Successful!", Toast.LENGTH_LONG).show();
-
-                        Intent mIntent = new Intent(ConfirmDetails.this, MainActivity.class);
-                        startActivity(mIntent);
-                        finish();
-
-                    } else {
-                        Toast.makeText(ConfirmDetails.this, "Upload Error, Please Try again!", Toast.LENGTH_SHORT).show();
-                    }
                 }
-            });
+            }
         }
     }
+
 
 
     @SuppressLint("SetTextI18n")
@@ -397,5 +472,44 @@ public class ConfirmDetails extends AppCompatActivity {
 
     }
 
+    public void showDisclaimerDialog(View view){
+        errorTv.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+        mUpload.setEnabled(true);
+        mUpload.setVisibility(View.VISIBLE);
+        mBAck.setVisibility(View.VISIBLE);
+        mBAck.setEnabled(true);
+        disclaimerDialog.show();
+    }
+
+
+    private void initFindViewByIds(){
+
+        nameTv = findViewById(R.id.nameTv_c);
+        ageTv = findViewById(R.id.ageTv_c);
+        genderTv = findViewById(R.id.genderTv_c);
+        nationalityTv = findViewById(R.id.nationalityTv_c);
+        missingSinceTv = findViewById(R.id.missing_sinceTv_c);
+        eyeColorTv = findViewById(R.id.eyeTv_c);
+        heightTv = findViewById(R.id.heightTv_c);
+        weightTv = findViewById(R.id.weightTv_c);
+        personalityTv = findViewById(R.id.personalityTv_c);
+        publishedOnTv = findViewById(R.id.pubished_onTv_c);
+        detailsTv = findViewById(R.id.detailTv_c);
+        contactsTv = findViewById(R.id.contactTv_c);
+
+
+        publishedOnField = findViewById(R.id.pb_c);
+        missingSinceField = findViewById(R.id.missing_since_field_c);
+        eyeColorField = findViewById(R.id.eye_color_c);
+        heightField = findViewById(R.id.height_c);
+        weightField = findViewById(R.id.weight_c);
+        personalityField = findViewById(R.id.personality_c);
+        detailsField = findViewById(R.id.details_c);
+        contactsField = findViewById(R.id.contact_c);
+
+        uploadButton = findViewById(R.id.upload_button_c);
+
+    }
 
 }

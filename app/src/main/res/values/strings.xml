@@ -112,6 +112,8 @@
     <string name="go_back_">Go Back</string>
     <string name="upload_">Upload</string>
     <string name="best_of_my_knowledge">• All the information provided by you is true and correct to the best of your knowledge and belief.</string>
+    <string name="note__">Note:</string>
+    <string name="tenure_of_27_days">You cannot put down the uploaded information before a successful tenure of 27 days.</string>
 
 
 </resources>

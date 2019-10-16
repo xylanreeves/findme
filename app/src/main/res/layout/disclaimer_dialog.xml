@@ -69,15 +69,66 @@
 
         />
 
+    <TextView
+        android:id="@+id/note_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_below="@id/right_info"
+        android:text="@string/note__"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        android:id="@+id/note_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_below="@id/right_info"
+        android:layout_toRightOf="@id/note_tv"
+        android:text="@string/tenure_of_27_days"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@id/note_tv" />
+
+
+    <LinearLayout
+        android:id="@+id/progress_horizontal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/error_text_layout"
+        >
+
+        <ProgressBar
+            android:id="@+id/progress_h"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/right_info"
+        android:layout_below="@id/progress_horizontal_layout"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
         android:layout_toStartOf="@id/upload_btn"
         android:layout_toLeftOf="@id/upload_btn"
         android:background="@drawable/flag_transparent"
@@ -86,25 +137,60 @@
         android:textColor="@drawable/text_selector"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless" />
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginEnd="16dp" />
+
+
+    <LinearLayout
+        android:id="@+id/error_text_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/note_info"
+        android:layout_centerInParent="true"
+        >
+
+        <TextView
+            android:id="@+id/error_text"
+            android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+            android:textAlignment="center"
+
+            />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/upload_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/right_info"
+        android:layout_alignTop="@id/back_btn"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/flag_transparent"
         android:text="@string/upload_"
         android:textAllCaps="false"
         android:textColor="@drawable/text_selector"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:foreground="?attr/selectableItemBackgroundBorderless"/>
+
+    <ProgressBar
+        android:id="@+id/mBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/upload_btn"
+        android:layout_alignBottom="@id/upload_btn"
+        android:layout_alignEnd="@id/upload_btn"
+        android:layout_alignStart="@id/upload_btn"
+        android:layout_alignLeft="@id/upload_btn"
+        android:layout_alignRight="@id/upload_btn"
+        android:padding="12dp"
+        android:visibility="invisible"
         />
+
 </RelativeLayout>

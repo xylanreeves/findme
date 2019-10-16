@@ -1,9 +1,5 @@
 package com.hominian.findme.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,6 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.chaos.view.PinView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,17 +23,16 @@ import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.firebase.database.core.Tag;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
+import com.hominian.findme.DataModels.Uploader;
 import com.hominian.findme.R;
 
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class PhoneAuth extends AppCompatActivity implements View.OnClickListener {
@@ -183,12 +182,11 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                             if (phoneNumber != null) {
 
                                 String userId = mAuth.getCurrentUser().getUid();
+                                List<String> finds = new ArrayList<>();
 
-                                HashMap<String, String> hUser = new HashMap<>();
-                                hUser.put(KEY_NUMBER, phoneNumber);
-                                hUser.put(KEY_UID, userId);
+                                Uploader uploader = new Uploader(phoneNumber, userId, finds);
 
-                                uploaderRef.document(phoneNumber).set(hUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                uploaderRef.document(phoneNumber).set(uploader).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (!task.isSuccessful()){
