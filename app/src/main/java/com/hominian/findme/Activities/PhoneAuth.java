@@ -172,9 +172,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
 
                         mProgressBar.setVisibility(View.INVISIBLE);
 
-
                         if (task.isSuccessful() && task.getResult() != null) {
-
 
                             String phoneNumber = task.getResult().getUser().getPhoneNumber();
 
@@ -189,7 +187,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                                 uploaderRef.document(phoneNumber).set(uploader).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        if (!task.isSuccessful()){
+                                        if (!task.isSuccessful()) {
                                             Toast.makeText(PhoneAuth.this, "Error at Server 505", Toast.LENGTH_SHORT).show();
                                         }
                                     }
@@ -249,11 +247,11 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
 
 
         if (v == verifyCode) {
-            String otp = pinView.getText().toString();
-            if (otp.length() < 6) {
-                Toast.makeText(this, "Invalid Code entered!", Toast.LENGTH_SHORT).show();
+
+            if (pinView.getText().equals("") || pinView.getItemCount() < 6) {
+                Toast.makeText(this, "Code Not valid!", Toast.LENGTH_SHORT).show();
             }
-            verifyCode(otp);
+            verifyCode(pinView.getText().toString());
 
         }
     }

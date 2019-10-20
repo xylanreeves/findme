@@ -101,14 +101,14 @@ public class ConfirmDetails extends AppCompatActivity {
     Bitmap image_bitmap;
 
     //dialog_views
-    Dialog disclaimerDialog;
-    TextView mTerms;
-    Button mBAck;
-    Button mUpload;
-    ProgressBar mProgressBar;
-    TextView errorTv;
-    ProgressBar progressHorizontal;
-    private int counter;
+    private Dialog disclaimerDialog;
+    private TextView mTerms;
+    private Button mBAck;
+    private Button mUpload;
+    private ProgressBar mProgressBar;
+    private TextView errorTv;
+    private ProgressBar progressHorizontal;
+    private static int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,7 +208,7 @@ public class ConfirmDetails extends AppCompatActivity {
 
 
 
-        if (imageList.size() != 0) {
+        if (imageList.size() > 0) {
 
             errorTv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
             disclaimerDialog.setCancelable(false);
@@ -282,14 +282,15 @@ public class ConfirmDetails extends AppCompatActivity {
     private void uploadImages() {
 
         imagesDocument = mStorageReference.child("person_images");
-
         errorTv.setText("Processing Images...");
 
+        counter=0;
         for (int i = 0; i < imageList.size(); i++) {
 
             final int inf = i;
 
             if (imageList.get(i).getPath() != null) {
+
                 File imageFile = new File(imageList.get(i).getPath());
 
                 try {
@@ -314,23 +315,57 @@ public class ConfirmDetails extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-
                         imagesDocument.child(findsRef.getId()).child("image" + inf + ".webp")
                                 .getDownloadUrl()
                                 .addOnCompleteListener(new OnCompleteListener<Uri>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Uri> task) {
 
-                                        if (task.isSuccessful()){
-                                        findsRef.update("imageDownloadUrls", FieldValue.arrayUnion(task.getResult().toString()));
                                         counter++;
-                                        errorTv.setText("Uploading image "+(inf +1)+"/"+imageList.size());
+                                        if (task.isSuccessful() && task.getResult() != null){
+                                        findsRef.update("imageDownloadUrls", FieldValue.arrayUnion(task.getResult().toString()));
+                                        errorTv.setText("Uploading image "+ (inf+1) + "/" + imageList.size());
                                         errorTv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
                                         errorTv.setVisibility(View.VISIBLE);
 
                                         } else  {
+                                            imagesDocument.child(findsRef.getId()).child("image" + inf + ".webp").delete();
                                             Toast.makeText(ConfirmDetails.this, "ImageUrl Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                         }
+
+                                        if (counter >= imageList.size()) {
+
+                                            CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
+                                                @Override
+                                                public void onTick(long millisUntilFinished) {
+                                                    countDown = (int) (millisUntilFinished / 1000);
+
+                                                    errorTv.setText("Upload Successful!\nRedirecting to Home in " + countDown);
+                                                    errorTv.setTextColor(getResources().getColor(R.color.green_primary));
+                                                }
+
+                                                @Override
+                                                public void onFinish() {
+                                                    countDown = 0;
+                                                }
+                                            }.start();
+
+                                            mProgressBar.setVisibility(View.INVISIBLE);
+
+                                            mUpload.setEnabled(false);
+                                            mUpload.setVisibility(View.VISIBLE);
+
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    startActivity(new Intent(ConfirmDetails.this, MainActivity.class));
+                                                    finish();
+                                                }
+                                            }, 10000);
+
+
+                                        }
+
                                     }
                                 });
                     }
@@ -339,43 +374,9 @@ public class ConfirmDetails extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         counter++;
                         Toast.makeText(ConfirmDetails.this, "Error uploading image " + inf, Toast.LENGTH_SHORT).show();
-
                     }
                 });
 
-                if (inf == imageList.size()-1) {
-
-
-                    CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                            countDown = (int) (millisUntilFinished / 1000);
-
-                            errorTv.setText("Upload Successful!\nRedirecting to Home in " + countDown);
-                            errorTv.setTextColor(getResources().getColor(R.color.green_primary));
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            countDown = 0;
-                        }
-                    }.start();
-
-                    mProgressBar.setVisibility(View.INVISIBLE);
-
-                    mUpload.setEnabled(false);
-                    mUpload.setVisibility(View.VISIBLE);
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(ConfirmDetails.this, MainActivity.class));
-                            finish();
-                        }
-                    }, 10000);
-
-
-                }
             }
         }
     }

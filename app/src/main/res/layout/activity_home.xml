@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:elevation="4dp">
+            android:elevation="4dp"
+            tools:targetApi="lollipop">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -27,7 +28,8 @@
                 android:clipChildren="false"
 
                 android:elevation="4dp"
-                app:titleMargin="0dp">
+                app:titleMargin="0dp"
+                tools:targetApi="lollipop">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -100,7 +102,6 @@
             android:id="@+id/recyclerViewId"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/bottom_add_button"
             android:layout_below="@+id/appbar_id"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="-1dp"
@@ -144,6 +145,7 @@
 
 
             <ImageView
+                android:id="@+id/imageView3"
                 android:layout_width="0dp"
                 android:layout_height="194dp"
                 android:adjustViewBounds="false"
@@ -177,8 +179,8 @@
                 android:id="@+id/textView_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginLeft="24dp"
                 android:layout_marginTop="96dp"
                 android:padding="4dp"
                 android:text="@string/h_id"
@@ -194,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="96dp"
                 android:padding="4dp"
-                android:text="Guest"
+                android:text="@string/guest"
                 android:textSize="18sp"
                 android:visibility="visible"
                 app:layout_constraintStart_toEndOf="@+id/textView_id"
@@ -218,8 +220,8 @@
                 android:id="@+id/sign_out_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="35dp"
-                android:layout_marginLeft="35dp"
+                android:layout_marginStart="27dp"
+                android:layout_marginLeft="27dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/button_bg_stroke"
                 android:clickable="true"
@@ -248,6 +250,43 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearListLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="24dp"
+                    android:paddingStart="24dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:background="@drawable/flag_transparent"
+                    android:text="@string/your_uploads"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/quantum_black_hint_text"
+                    android:textSize="16sp"
+                    android:textAllCaps="false"
+                    android:drawableLeft="@drawable/ic_person_outline_black_24dp"
+                    android:drawableStart="@drawable/ic_person_outline_black_24dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    tools:targetApi="m"
+                    tools:ignore="RtlSymmetry,UnusedAttribute"
+                    android:layout_gravity="start"
+                    android:onClick="yourUploadsPage"
+                    />
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -73,7 +73,7 @@
             android:layout_below="@id/image_layout_p"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="@string/published_on_"
+            android:text="@string/published_p"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp" />
@@ -85,7 +85,6 @@
             android:layout_below="@id/pb_p"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="31/12/2016"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp" />
 
@@ -113,7 +112,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="4dp"
-                    android:text="Name,"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -123,9 +121,10 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="4dp"
                     android:paddingBottom="4dp"
-                    android:text="16"
                     android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:paddingStart="4dp"
+                    tools:ignore="RtlSymmetry" />
 
 
             </LinearLayout>
@@ -141,7 +140,6 @@
                     android:id="@+id/genderTv_p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Male,"
                     android:textSize="18sp" />
 
                 <TextView
@@ -150,7 +148,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginLeft="4dp"
-                    android:text="Indian"
                     android:textSize="18sp" />
 
 
@@ -177,7 +174,6 @@
                     android:paddingEnd="8dp"
                     android:paddingRight="8dp"
                     android:paddingLeft="4dp"
-                    android:text="16 dec 1998"
                     android:textSize="18sp"
                     tools:ignore="RtlSymmetry" />
 
@@ -215,7 +211,6 @@
                 android:paddingTop="16dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="16dp"
-                android:text="Details goes here"
                 android:textSize="16sp"
                 />
 
@@ -252,7 +247,6 @@
                 android:background="@color/colorPrimary"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                android:text="contact here"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:textSize="16sp"
@@ -297,8 +291,8 @@
                     android:layout_marginLeft="4dp"
                     android:paddingEnd="8dp"
                     android:paddingRight="8dp"
-                    android:text="Brown"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 
@@ -327,8 +321,8 @@
                     android:layout_marginLeft="4dp"
                     android:paddingEnd="8dp"
                     android:paddingRight="8dp"
-                    android:text="6.11"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 
@@ -356,8 +350,8 @@
                     android:layout_marginLeft="4dp"
                     android:paddingEnd="8dp"
                     android:paddingRight="8dp"
-                    android:text="66 Kgs"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    tools:ignore="RtlSymmetry" />
 
 
 
@@ -388,7 +382,6 @@
                     android:paddingLeft="4dp"
                     android:paddingEnd="8dp"
                     android:paddingRight="8dp"
-                    android:text="INJF"
                     android:textSize="16sp"
                     android:paddingStart="4dp" />
 

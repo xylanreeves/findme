@@ -11,7 +11,7 @@ import com.google.firebase.firestore.Exclude;
 import java.util.List;
 
 @IgnoreExtraProperties
-public class PersonModel implements Parcelable{
+public class PersonModel implements Parcelable {
 
 
     private String name;
@@ -26,7 +26,8 @@ public class PersonModel implements Parcelable{
     private String nationality;
     private String details;
     private String contactDetails;
-    @Exclude private List<Uri> imageList;
+    @Exclude
+    private List<Uri> imageList;
     private List<String> imageDownloadUrls;
     private Timestamp timeStamp;
     private String uploaderId;
@@ -110,132 +111,79 @@ public class PersonModel implements Parcelable{
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
 
     public String getMissingSince() {
         return missingSince;
     }
 
-    public void setMissingSince(String missingSince) {
-        this.missingSince = missingSince;
-    }
 
     public String getAge() {
         return age;
     }
 
-    public void setAge(String age) {
-        this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
 
     public String getEyeColor() {
         return eyeColor;
     }
 
-    public void setEyeColor(String eyeColor) {
-        this.eyeColor = eyeColor;
-    }
 
     public String getPersonality() {
         return personality;
     }
 
-    public void setPersonality(String personality) {
-        this.personality = personality;
-    }
 
     public String getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
-        this.height = height;
-    }
 
     public String getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
 
     public String getNationality() {
         return nationality;
     }
 
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
 
     public String getDetails() {
         return details;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
-    }
 
     public String getContactDetails() {
         return contactDetails;
     }
 
-    public void setContactDetails(String contactDetails) {
-        this.contactDetails = contactDetails;
-    }
 
     public List<Uri> getImageList() {
         return imageList;
-    }
-
-    public void setImageList(List<Uri> imageList) {
-        this.imageList = imageList;
     }
 
     public List<String> getImageDownloadUrls() {
         return imageDownloadUrls;
     }
 
-    public void setImageDownloadUrls(List<String> imageDownloadUrls) {
-        this.imageDownloadUrls = imageDownloadUrls;
+    public String getPersonId() {
+        return personId;
+    }
+
+    public String getGender() {
+        return gender;
     }
 
     public Timestamp getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Timestamp timeStamp) {
-        this.timeStamp = timeStamp;
-    }
 
     public String getUploaderId() {
         return uploaderId;
     }
 
-    public void setUploaderId(String uploaderId) {
-        this.uploaderId = uploaderId;
-    }
 
-    public PersonModel(){
-        //firebase use;
+    public PersonModel() {
     }
 
 
@@ -271,8 +219,24 @@ public class PersonModel implements Parcelable{
         this.imageList = imageList;
     }
 
-
-
-
-
+    @Override
+    public String toString() {
+        return "PersonModel{" +
+                "name='" + name + '\'' +
+                ", personId='" + personId + '\'' +
+                ", missingSince='" + missingSince + '\'' +
+                ", age='" + age + '\'' +
+                ", gender='" + gender + '\'' +
+                ", eyeColor='" + eyeColor + '\'' +
+                ", personality='" + personality + '\'' +
+                ", height='" + height + '\'' +
+                ", weight='" + weight + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", details='" + details + '\'' +
+                ", contactDetails='" + contactDetails + '\'' +
+                ", imageDownloadUrls=" + imageDownloadUrls +
+                ", timeStamp=" + timeStamp +
+                ", uploaderId='" + uploaderId + '\'' +
+                '}';
     }
+}

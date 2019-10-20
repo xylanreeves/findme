@@ -4,11 +4,12 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.hominian.findme.R;
 
@@ -69,7 +70,7 @@ public class DonationActivity extends AppCompatActivity{
         if (toast != null) {
             toast.cancel();
         }
-        toast = Toast.makeText(DonationActivity.this, "Address Copied", Toast.LENGTH_SHORT);
+        toast = Toast.makeText(DonationActivity.this, "Paypal Address Copied", Toast.LENGTH_SHORT);
         toast.show();
     }
 }

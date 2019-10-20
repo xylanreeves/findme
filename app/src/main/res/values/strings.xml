@@ -48,8 +48,8 @@
 
     <!--Donation addresses-->
     <string name="btc_address_wzr">3CHcXfZqdGDovhcUZcfzZN4RigU9awXS6E</string>
-    <string name="btc_address_cb">3KPG11fkjj3q7FJp9qh4PRVx8iyWDcQGNT</string>
-    <string name="paypal_address">paypal.me/xylannerd</string>
+    <string name="btc_address_cb">1C38obdfRT37bNdqRcPHnc15RhQiwauqhX</string>
+    <string name="paypal_address">paypal.me/hominian</string>
 
     <!--Phone Activity-->
     <string name="verify_phone">Verify Phone</string>
@@ -114,6 +114,16 @@
     <string name="best_of_my_knowledge">• All the information provided by you is true and correct to the best of your knowledge and belief.</string>
     <string name="note__">Note:</string>
     <string name="tenure_of_27_days">You cannot put down the uploaded information before a successful tenure of 27 days.</string>
+    <string name="published_p">Published:</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="your_uploads">\t\tYour Uploads</string>
+    <string name="guest">Guest</string>
+    <string name="sign_in_to_see_your_uploads">Sign in to see your Uploads</string>
+    <string name="sign_in">Sign In</string>
+    <string name="hold_item_for_more_options">Hold item for more options</string>
+    <string name="zero_uploads">You have zero Uploads</string>
+    <string name="total_upl">Total uploads:\t</string>
 
 
 </resources>

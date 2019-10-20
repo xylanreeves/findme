@@ -14,6 +14,7 @@
     android:layout_marginStart="5dp"
     android:layout_marginRight="4dp"
     android:layout_marginLeft="5dp"
+    android:layout_marginBottom="8dp"
     android:focusable="true"
     tools:ignore="UnusedAttribute">
 
@@ -28,7 +29,8 @@
             android:adjustViewBounds="true"
             android:cropToPadding="false"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/dp" />
+            app:srcCompat="@drawable/dp"
+            />
 
         <LinearLayout
             android:id="@+id/details_layout_id"
@@ -45,43 +47,64 @@
 
             <TextView
                 android:id="@+id/details_tv_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-                android:text="Details and shit"
-                android:textColor="@color/colorPrimary"
-                android:maxLines="2"
-                android:maxEms="15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:ellipsize="marquee"
-            />
+                android:ems="10"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:shadowColor="#4D000000"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/details_layout_id"
+                android:layout_above="@id/nation_gender_layout_id"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:orientation="horizontal"
                 >
-            <TextView
-                android:id="@+id/name_tv_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:text="No Name"
-                android:textColor="@color/colorPrimary"
-                />
+
+                <TextView
+                    android:id="@+id/name_tv_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/age_tv_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
+                    android:layout_marginStart="4dp"
                     android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nation_gender_layout_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/details_layout_id"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/nation_gender_tv_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
         </LinearLayout>
 

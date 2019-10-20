@@ -32,8 +32,18 @@ public class ProfileSliderAdapter extends SliderViewAdapter<ProfileSliderAdapter
     @Override
     public void onBindViewHolder(SliderAdapterVH viewHolder, int position) {
 
-        String imgUrl = imgList.get(position);
-        Glide.with(mContext).load(imgUrl).into(viewHolder.imageViewBackground);
+        if (imgList.size()>0) {
+            String imgUrl = imgList.get(position);
+            Glide.with(mContext)
+                    .load(imgUrl)
+                    .fallback(R.drawable.dp)
+                    .error(R.drawable.dp)
+                    .into(viewHolder.imageViewBackground);
+        } else{
+            Glide.with(mContext)
+                    .load(R.drawable.dp)
+                    .into(viewHolder.imageViewBackground);
+        }
 
     }
 
