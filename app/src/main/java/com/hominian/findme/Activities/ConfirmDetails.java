@@ -147,9 +147,15 @@ public class ConfirmDetails extends AppCompatActivity {
         sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
 
-
         initLayout();
 
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDisclaimerDialog();
+            }
+        });
 
     }
 
@@ -333,7 +339,7 @@ public class ConfirmDetails extends AppCompatActivity {
                                             Toast.makeText(ConfirmDetails.this, "ImageUrl Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                         }
 
-                                        if (counter >= imageList.size()) {
+                                        if (counter >= imageList.size()-1) {
 
                                             CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
                                                 @Override
@@ -467,13 +473,9 @@ public class ConfirmDetails extends AppCompatActivity {
             } else contactsTv.setText(contacts);
 
 
-
-
-
-
     }
 
-    public void showDisclaimerDialog(View view){
+    private void showDisclaimerDialog(){
         errorTv.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         mUpload.setEnabled(true);

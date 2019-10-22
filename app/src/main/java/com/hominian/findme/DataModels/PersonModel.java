@@ -32,6 +32,9 @@ public class PersonModel implements Parcelable {
     private Timestamp timeStamp;
     private String uploaderId;
 
+    //Firebase
+    public PersonModel() {}
+
     public PersonModel(String name, String personId, String missingSince, String age, String gender, String eyeColor, String personality, String height, String weight, String nationality, String details, String contactDetails, List<String> imageDownloadUrls, Timestamp timeStamp, String uploaderId) {
         this.name = name;
         this.personId = personId;
@@ -182,9 +185,6 @@ public class PersonModel implements Parcelable {
         return uploaderId;
     }
 
-
-    public PersonModel() {
-    }
 
 
     public PersonModel(String name, String missingSince, String age, String gender, String eyeColor, String personality, String height, String weight, String nationality, String details, String contactDetails, List<Uri> imageList, Timestamp timeStamp, String uploaderId) {

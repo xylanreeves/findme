@@ -42,6 +42,7 @@ public class ProfileSliderAdapter extends SliderViewAdapter<ProfileSliderAdapter
         } else{
             Glide.with(mContext)
                     .load(R.drawable.dp)
+                    .centerCrop()
                     .into(viewHolder.imageViewBackground);
         }
 

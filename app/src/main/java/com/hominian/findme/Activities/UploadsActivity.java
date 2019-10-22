@@ -156,7 +156,6 @@ public class UploadsActivity extends AppCompatActivity {
                                     intent.putExtra("personId", personModel.getPersonId());
                                     startActivity(intent);
 
-                                    Toast.makeText(UploadsActivity.this, "Clicked: Edit", Toast.LENGTH_SHORT).show();
                                     break;
 
                                 case R.id.option_delete:

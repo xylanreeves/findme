@@ -15,8 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.EditDetailsActivity"></activity>
-        <activity android:name=".Activities.UploadsActivity" />
+        <activity android:name=".Activities.EditDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ConfirmEditActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activities.UploadsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.TermsActivity"
             android:screenOrientation="portrait" />

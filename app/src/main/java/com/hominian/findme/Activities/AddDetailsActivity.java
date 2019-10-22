@@ -3,9 +3,7 @@ package com.hominian.findme.Activities;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,26 +17,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hominian.findme.DataModels.PersonModel;
+import com.hominian.findme.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-import com.hominian.findme.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class AddDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
+
+public class AddDetailsActivity extends AppCompatActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
     private static final String TAG = "AddDetailsActivity";
-    private static final int STORAGE_CAMERA_REQUEST_CODE = 23;
-    private static final String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+    private static final int PERMISSION_CODE = 666;
+    private static final String[] PERMISSIONS = {Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
 
     private Toolbar toolbar;
     private Uri mImageUri;
@@ -74,7 +75,6 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     private Button confirmButton;
 
 
-
     private void findViewIds() {
 
         //EditTexts and Button
@@ -93,7 +93,6 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
         confirmButton = findViewById(R.id.confirm_btn);
 
 
-
         //cardView_profile_images
         img1 = findViewById(R.id.img1);
         img2 = findViewById(R.id.img2);
@@ -109,10 +108,10 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
         cancelBtn5 = findViewById(R.id.cancelButton5);
     }
 
-    public void confirm(View view){
+    public void confirm(View view) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please confirm the details in the next page\nMake sure to check for any errors or improvement!")
+        builder.setMessage("Please confirm the details in the next page\nMake sure to check for any errors, typos or improvements!")
                 .setNegativeButton("Go Back", null)
                 .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
                     @Override
@@ -132,9 +131,9 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
 
                         List<Uri> imageList = new ArrayList<>();
                         for (Uri u : imageUriList) {
-                           if (u != null) {
-                               imageList.add(u);
-                           }
+                            if (u != null) {
+                                imageList.add(u);
+                            }
                         }
                         PersonModel mPerson = new PersonModel(mName, mMissingSince, mAge, mGender, mEyeColor, mPersonalityType,
                                 mHeight, mWeight, mNationality, mDetails, mContactDetail, imageList);
@@ -148,7 +147,6 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
 
 
     }
@@ -208,30 +206,29 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
 
 
-
         if (v == img1) {
             if (imageUriList[0] == null) {
-                mView=1;
+                mView = 1;
                 chooseImage();
             }
         } else if (v == img2) {
             if (imageUriList[1] == null) {
-                mView=2;
+                mView = 2;
                 chooseImage();
             }
         } else if (v == img3) {
             if (imageUriList[2] == null) {
-                mView=3;
+                mView = 3;
                 chooseImage();
             }
         } else if (v == img4) {
             if (imageUriList[3] == null) {
-                mView=4;
+                mView = 4;
                 chooseImage();
             }
         } else if (v == img5) {
             if (imageUriList[4] == null) {
-                mView=5;
+                mView = 5;
                 chooseImage();
             }
         }
@@ -242,26 +239,26 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
                 Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img1);
                 cancelBtn1.setVisibility(View.INVISIBLE);
             }
-        } else if (v == cancelBtn2){
-            if (imageUriList[1] != null){
+        } else if (v == cancelBtn2) {
+            if (imageUriList[1] != null) {
                 imageUriList[1] = null;
                 Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img2);
                 cancelBtn2.setVisibility(View.INVISIBLE);
             }
-        } else if (v == cancelBtn3){
-            if (imageUriList[2] != null){
+        } else if (v == cancelBtn3) {
+            if (imageUriList[2] != null) {
                 imageUriList[2] = null;
                 Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img3);
                 cancelBtn3.setVisibility(View.INVISIBLE);
             }
-        } else if (v == cancelBtn4){
-            if (imageUriList[3] != null){
+        } else if (v == cancelBtn4) {
+            if (imageUriList[3] != null) {
                 imageUriList[3] = null;
                 Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img4);
                 cancelBtn4.setVisibility(View.INVISIBLE);
             }
-        } else if (v == cancelBtn5){
-            if (imageUriList[4] != null){
+        } else if (v == cancelBtn5) {
+            if (imageUriList[4] != null) {
                 imageUriList[4] = null;
                 Glide.with(this).load(R.drawable.ic_add_circle_black_24dp).centerInside().into(img5);
                 cancelBtn5.setVisibility(View.INVISIBLE);
@@ -271,25 +268,19 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-
+    @AfterPermissionGranted(PERMISSION_CODE)
     private void chooseImage() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                    != PackageManager.PERMISSION_DENIED) {
-
-                askStoragePermission();
-
-            } else {
-                cropImage();
-            }
-        } else {
+        if (EasyPermissions.hasPermissions(this, PERMISSIONS)) {
             cropImage();
+        } else {
+            EasyPermissions.requestPermissions(this, "Permission is needed for required action.",
+                    PERMISSION_CODE,
+                    PERMISSIONS);
         }
-
     }
+
+
+
 
     private void cropImage() {
         CropImage.activity()
@@ -297,6 +288,11 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
                 .setAspectRatio(1, 1)
                 .start(this);
     }
+
+
+
+
+
 
 
     @Override
@@ -310,32 +306,30 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
             if (resultCode == RESULT_OK) {
                 mImageUri = result.getUri();
 
-                if (mView==1){
-                    imageUriList[0]= mImageUri;
+                if (mView == 1) {
+                    imageUriList[0] = mImageUri;
                     Glide.with(this).load(imageUriList[0]).centerCrop().into(img1);
                     cancelBtn1.setVisibility(View.VISIBLE);
-                } else if (mView==2){
-                    imageUriList[1]= mImageUri;
+                } else if (mView == 2) {
+                    imageUriList[1] = mImageUri;
                     Glide.with(this).load(imageUriList[1]).centerCrop().into(img2);
                     cancelBtn2.setVisibility(View.VISIBLE);
-                } else if (mView==3){
-                    imageUriList[2]= mImageUri;
+                } else if (mView == 3) {
+                    imageUriList[2] = mImageUri;
                     Glide.with(this).load(imageUriList[2]).centerCrop().into(img3);
                     cancelBtn3.setVisibility(View.VISIBLE);
-                } else if (mView==4){
-                    imageUriList[3]= mImageUri;
+                } else if (mView == 4) {
+                    imageUriList[3] = mImageUri;
                     Glide.with(this).load(imageUriList[3]).centerCrop().into(img4);
                     cancelBtn4.setVisibility(View.VISIBLE);
-                } else if (mView==5){
-                    imageUriList[4]= mImageUri;
+                } else if (mView == 5) {
+                    imageUriList[4] = mImageUri;
                     Glide.with(this).load(imageUriList[4]).centerCrop().into(img5);
                     cancelBtn5.setVisibility(View.VISIBLE);
                 }
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-
-                Exception error = result.getError();
-                Toast.makeText(this, "Error Occured: " + error + "Please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error Occured: " + result.getError() + "Please try again", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -344,51 +338,29 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
 
 
 
-    public void askStoragePermission() {
 
 
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
 
-            new AlertDialog.Builder(this)
-                    .setTitle("Permission Required!")
-                    .setMessage("Permisssion is needed for required action.")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(AddDetailsActivity.this, PERMISSIONS, STORAGE_CAMERA_REQUEST_CODE);
-                        }
-                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create()
-                    .show();
-
-        } else {
-            ActivityCompat.requestPermissions(this, PERMISSIONS, STORAGE_CAMERA_REQUEST_CODE);
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-
-        if (requestCode == STORAGE_CAMERA_REQUEST_CODE){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                cropImage();
-            } else {
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
 
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, Arrays.asList(PERMISSIONS))){
+            new AppSettingsDialog.Builder(this).build().show();
+        }
+    }
 
 
 

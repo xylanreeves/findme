@@ -10,7 +10,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -188,7 +187,13 @@ public class MainActivity extends AppCompatActivity {
                             switch (item.getItemId()) {
                                 case R.id.option_edit:
                                     //action
-                                    Toast.makeText(MainActivity.this, "Clicked: Edit", Toast.LENGTH_SHORT).show();
+
+                                    PersonModel personModel = documentSnapshot.toObject(PersonModel.class);
+
+                                    Intent intent = new Intent(MainActivity.this, EditDetailsActivity.class);
+                                    intent.putExtra("personId", personModel.getPersonId());
+                                    startActivity(intent);
+
                                     break;
                                 case R.id.option_delete:
                                     //action

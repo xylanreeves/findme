@@ -285,7 +285,7 @@
 
 
         <Button
-            android:id="@+id/confirm_btn"
+            android:id="@+id/confirm_btn_edit"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentBottom="true"
@@ -646,6 +646,3 @@
 
 
 </ScrollView>
-
-
-    t>
