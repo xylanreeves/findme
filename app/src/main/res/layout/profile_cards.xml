@@ -42,7 +42,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="6dp"
             >
 
             <TextView
@@ -62,26 +62,38 @@
         </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/name_age_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/nation_gender_layout_id"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:orientation="horizontal"
+                android:layout_marginBottom="-1dp"
                 >
 
                 <TextView
                     android:id="@+id/name_tv_id"
-                    android:text="Name,"
+                    android:text="Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+
+                    />
+
+                <TextView
+                    android:id="@+id/name_comma_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    />
 
                 <TextView
                     android:id="@+id/age_tv_id"
-                    android:text="23"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
@@ -107,6 +119,12 @@
                 android:text="nation_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:ems="10"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:shadowColor="#4D000000"
+                android:singleLine="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp" />
 

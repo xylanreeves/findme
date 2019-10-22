@@ -77,5 +77,9 @@ dependencies {
 
     //imageCompression Library
     implementation 'id.zelory:compressor:2.1.0'
+
+    //jodaTime
+    implementation 'joda-time:joda-time:2.10.4'
+
 }
 apply plugin: 'com.google.gms.google-services'

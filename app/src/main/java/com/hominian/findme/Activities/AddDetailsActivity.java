@@ -110,24 +110,44 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
 
     public void confirm(View view) {
 
+        final String mName = name.getText().toString().trim();
+        final String mMissingSince = missingSince.getText().toString().trim();
+        final String mAge = age.getText().toString().trim();
+        final String mGender = gender.getText().toString().trim();
+        final String mPersonalityType = personalityType.getText().toString().trim();
+        final String mHeight = height.getText().toString().trim();
+        final String mWeight = weight.getText().toString().trim();
+        final String mNationality = nationality.getText().toString().trim();
+        final String mDetails = moreDetails.getText().toString();
+        final String mContactDetail = contactDetails.getText().toString().trim();
+        final String mEyeColor = eyeColor.getText().toString().trim();
+
+        if (imageUriList.length < 1
+                && mName.equals("")
+                && mMissingSince.equals("")
+                && mAge.equals("")
+                && mGender.equals("")
+                && mPersonalityType.equals("")
+                && mHeight.equals("")
+                && mWeight.equals("")
+                && mNationality.equals("")
+                && mDetails.equals("")
+                && mContactDetail.equals("")
+                && mEyeColor.equals("")) {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+            mBuilder.setMessage("All fields cannot be left blank!")
+                    .setPositiveButton("Okay", null);
+            AlertDialog alertDialog = mBuilder.create();
+            alertDialog.show();
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please confirm the details in the next page\nMake sure to check for any errors, typos or improvements!")
+        builder.setMessage("Please confirm the details in the next page.\n\nMake sure to check for any errors, typos or improvements!")
                 .setNegativeButton("Go Back", null)
                 .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        String mName = name.getText().toString().trim();
-                        String mMissingSince = missingSince.getText().toString().trim();
-                        String mAge = age.getText().toString().trim();
-                        String mGender = gender.getText().toString().trim();
-                        String mPersonalityType = personalityType.getText().toString().trim();
-                        String mHeight = height.getText().toString().trim();
-                        String mWeight = weight.getText().toString().trim();
-                        String mNationality = nationality.getText().toString().trim();
-                        String mDetails = moreDetails.getText().toString();
-                        String mContactDetail = contactDetails.getText().toString().trim();
-                        String mEyeColor = eyeColor.getText().toString().trim();
 
                         List<Uri> imageList = new ArrayList<>();
                         for (Uri u : imageUriList) {

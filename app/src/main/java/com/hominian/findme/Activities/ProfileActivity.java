@@ -73,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         String comma = mPerson.getAge().equals("") ? "" : ",";
-        String genderComma = mPerson.getGender().equals("") ? "" : ",";
+        String genderComma = mPerson.getNationality().equals("") ? "" : ",";
 
 
         if (mPerson.getName().equals("")) {

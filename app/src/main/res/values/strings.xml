@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FindMe</string>
+    <string name="application_name">FindMe</string>
 
     <string name="add_missing_person">Add Missing/Lost Person</string>
 

@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
-                tools:ignore="ObsoleteLayoutParam">
+                >
 
                 <TextView
                     android:id="@+id/nameTv_p"
@@ -113,7 +113,8 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="4dp"
                     android:textSize="24sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:text="name"/>
 
                 <TextView
                     android:id="@+id/ageTv_p"
@@ -124,7 +125,8 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:paddingStart="4dp"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry"
+                    android:text="age"/>
 
 
             </LinearLayout>
@@ -140,7 +142,8 @@
                     android:id="@+id/genderTv_p"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:text="gender"/>
 
                 <TextView
                     android:id="@+id/nationalityTv_p"
@@ -148,7 +151,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginLeft="4dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:text="nationality"/>
 
 
             </LinearLayout>

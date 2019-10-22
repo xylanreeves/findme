@@ -24,6 +24,8 @@ import com.smarteist.autoimageslider.SliderView;
 
 import org.apache.commons.text.WordUtils;
 
+import java.util.List;
+
 public class ConfirmEditActivity extends AppCompatActivity {
 
     private TextView nameTv;
@@ -50,6 +52,8 @@ public class ConfirmEditActivity extends AppCompatActivity {
     private TextView contactsField;
     private TextView contactsTv;
 
+    private List<String> imageUrlsList;
+
 
     private Button uploadButton;
 
@@ -64,17 +68,25 @@ public class ConfirmEditActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_details);
+
         initFindViewByIds();
-        initLayout();
 
         mPerson = getIntent().getParcelableExtra("personData");
+
+        if (mPerson != null && mPerson.getImageDownloadUrls() != null){
+            imageUrlsList = mPerson.getImageDownloadUrls();
+        }
 
         db = FirebaseFirestore.getInstance();
         findsref = db.collection("finds").document(mPerson.getPersonId());
 
+
+        initLayout();
+
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(ConfirmEditActivity.this);
                 builder.setMessage("Confirm and Update Details?")
                         .setNegativeButton("Go Back", null)
@@ -88,8 +100,10 @@ public class ConfirmEditActivity extends AppCompatActivity {
                         });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
+
             }
         });
+
     }
 
 
@@ -113,7 +127,7 @@ public class ConfirmEditActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void initLayout() {
 
-        SliderView sliderView = findViewById(R.id.imageSlider_p);
+        SliderView sliderView = findViewById(R.id.imageSlider_);
         sliderView.setSliderAdapter(new ProfileSliderAdapter(this, mPerson.getImageDownloadUrls()));
         sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);

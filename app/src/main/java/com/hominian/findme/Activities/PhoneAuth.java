@@ -39,8 +39,6 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
 
     private static final String TAG = "PhoneAuth";
 
-    private static final String KEY_UID = "UID";
-    private static final String KEY_NUMBER = "Phone Number";
 
     private TextView tV3;
     private EditText phoneNumber;

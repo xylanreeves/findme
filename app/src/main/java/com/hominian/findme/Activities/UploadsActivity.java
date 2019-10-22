@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -30,19 +31,20 @@ import com.hominian.findme.R;
 
 public class UploadsActivity extends AppCompatActivity {
 
-    TextView heading;
-    TextView signInBtn;
+    private TextView heading;
+    private TextView signInBtn;
 
-    RecyclerView recyclerView;
-    ProfileAdapter uploadsAdapter;
+    private RecyclerView recyclerView;
+    private ProfileAdapter uploadsAdapter;
 
-    FirebaseAuth.AuthStateListener authStateListener;
-    FirebaseAuth mAuth;
-    FirebaseUser mUser;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+    private boolean admin;
 
-    FirebaseFirestore db;
-    CollectionReference findsRef;
-    CollectionReference uploaderRef;
+    private FirebaseFirestore db;
+    private CollectionReference findsRef;
+    private CollectionReference uploaderRef;
 
 
     @Override
@@ -57,6 +59,7 @@ public class UploadsActivity extends AppCompatActivity {
         heading = findViewById(R.id.uploadsHeading);
         signInBtn = findViewById(R.id.sign_in_button_upld);
         mAuth = FirebaseAuth.getInstance();
+        recyclerView = findViewById(R.id.recycle_uploads);
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @SuppressLint("SetTextI18n")
@@ -64,7 +67,7 @@ public class UploadsActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
                 mUser = mAuth.getCurrentUser();
-                if (mUser != null) {
+                if (mAuth.getCurrentUser() != null) {
                     heading.setVisibility(View.GONE);
                     signInBtn.setVisibility(View.GONE);
                 } else {
@@ -72,12 +75,24 @@ public class UploadsActivity extends AppCompatActivity {
                     heading.setVisibility(View.VISIBLE);
                     signInBtn.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
+                    signInBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(UploadsActivity.this, PhoneAuth.class));
+                            finish();
+                        }
+                    });
                 }
+
+
             }
         };
 
 
-        initRecycleView();
+        if (mAuth.getCurrentUser() != null) {
+            initRecycleView();
+            admin = mAuth.getCurrentUser().getPhoneNumber().equals("+919717388845");
+        }
 
     }
 
@@ -95,7 +110,6 @@ public class UploadsActivity extends AppCompatActivity {
 
         uploadsAdapter = new ProfileAdapter(options, this);
 
-        recyclerView = findViewById(R.id.recycle_uploads);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(uploadsAdapter);
@@ -160,21 +174,67 @@ public class UploadsActivity extends AppCompatActivity {
 
                                 case R.id.option_delete:
                                     //action
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(UploadsActivity.this);
-                                    builder.setMessage("Delete \"" + documentSnapshot.getId() + "\" ?")
-                                            .setNegativeButton("Go Back", null)
-                                            .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    findsRef.document(documentSnapshot.getId()).delete();
-                                                    uploaderRef.document(mAuth.getCurrentUser().getPhoneNumber()).update("finds", FieldValue.arrayRemove(documentSnapshot.getId()));
+
+                                    PersonModel nPerson = documentSnapshot.toObject(PersonModel.class);
+
+                                    if (!admin) {
+
+
+                                        int diff = 0;
+                                        if (nPerson != null) {
+                                            diff = Timestamp.now().compareTo(nPerson.getTimeStamp());
+                                        }
+                                        int remainingDays = 27 - (diff / 86400);
+                                        int remainingHours = (27 * 24) - (diff / 3600);
+                                        int remainingMinutes = (27 * 24 * 60) - (diff / 60);
+
+                                        if (diff < (27 * 86400)) {
+                                            if (remainingHours < 24) {
+                                                if (remainingMinutes < 60) {
+                                                    Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + remainingMinutes + " minutes.", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + remainingHours + " hours.", Toast.LENGTH_SHORT).show();
                                                 }
-                                            });
+                                            } else {
+                                                Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + remainingDays + " days.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
 
-                                    AlertDialog alertDialog = builder.create();
-                                    alertDialog.show();
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(UploadsActivity.this);
+                                            builder.setMessage("Delete \"" + documentSnapshot.getId() + "\" ?")
+                                                    .setNegativeButton("Go Back", null)
+                                                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            findsRef.document(documentSnapshot.getId()).delete();
+                                                            uploaderRef.document(mAuth.getCurrentUser().getPhoneNumber()).update("finds", FieldValue.arrayRemove(documentSnapshot.getId()));
+                                                            Toast.makeText(UploadsActivity.this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                            AlertDialog alertDialog = builder.create();
+                                            alertDialog.show();
 
-                                    break;
+                                        }
+
+                                    } else {
+
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(UploadsActivity.this);
+                                        builder.setMessage("Delete \"" + documentSnapshot.getId() + "\" ?")
+                                                .setNegativeButton("Go Back", null)
+                                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        findsRef.document(documentSnapshot.getId()).delete();
+                                                        uploaderRef.document(mAuth.getCurrentUser().getPhoneNumber()).update("finds", FieldValue.arrayRemove(documentSnapshot.getId()));
+                                                        Toast.makeText(UploadsActivity.this, "Delete Successful", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                        AlertDialog alertDialog = builder.create();
+                                        alertDialog.show();
+
+                                    }
+
+                                default:
                             }
                             return false;
                         }
@@ -192,9 +252,13 @@ public class UploadsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        uploadsAdapter.startListening();
 
         mAuth.addAuthStateListener(authStateListener);
+
+        if (mAuth.getCurrentUser() != null) {
+            uploadsAdapter.startListening();
+        }
+        ;
     }
 
     @Override
@@ -208,6 +272,8 @@ public class UploadsActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        uploadsAdapter.stopListening();
+        if (mAuth.getCurrentUser() != null) {
+            uploadsAdapter.stopListening();
+        }
     }
 }
