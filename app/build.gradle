@@ -81,5 +81,8 @@ dependencies {
     //jodaTime
     implementation 'joda-time:joda-time:2.10.4'
 
+    //appIntro
+    implementation 'com.github.AppIntro:AppIntro:5.1.0'
+
 }
 apply plugin: 'com.google.gms.google-services'

@@ -180,24 +180,26 @@ public class UploadsActivity extends AppCompatActivity {
                                     if (!admin) {
 
 
-                                        int diff = 0;
+                                        long timePassed = 0;
                                         if (nPerson != null) {
-                                            diff = Timestamp.now().compareTo(nPerson.getTimeStamp());
+                                            timePassed = Timestamp.now().getSeconds() - (nPerson.getTimeStamp().getSeconds());
                                         }
-                                        int remainingDays = 27 - (diff / 86400);
-                                        int remainingHours = (27 * 24) - (diff / 3600);
-                                        int remainingMinutes = (27 * 24 * 60) - (diff / 60);
+                                        int daysRemaining = (int) (27 - (timePassed / 86400));
+                                        int hoursRemaining = (int) ((27 * 24) - (timePassed / 3600));
+                                        int minutesRemaining = (int) ((27 * 24 * 60) - (timePassed / 60));
 
-                                        if (diff < (27 * 86400)) {
-                                            if (remainingHours < 24) {
-                                                if (remainingMinutes < 60) {
-                                                    Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + remainingMinutes + " minutes.", Toast.LENGTH_SHORT).show();
+                                        if (minutesRemaining > 0){
+
+                                            if (hoursRemaining < 24) {
+                                                if (minutesRemaining < 60){
+                                                    Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + minutesRemaining + " minutes.", Toast.LENGTH_SHORT).show();
                                                 } else {
-                                                    Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + remainingHours + " hours.", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + hoursRemaining + " hour.", Toast.LENGTH_SHORT).show();
                                                 }
                                             } else {
-                                                Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + remainingDays + " days.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + daysRemaining + " days.", Toast.LENGTH_SHORT).show();
                                             }
+
                                         } else {
 
                                             AlertDialog.Builder builder = new AlertDialog.Builder(UploadsActivity.this);

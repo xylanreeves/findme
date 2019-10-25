@@ -94,8 +94,7 @@ public class ConfirmEditActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 confirmEditAndUpload();
-                                startActivity(new Intent(ConfirmEditActivity.this, MainActivity.class));
-                                finish();
+
                             }
                         });
                 AlertDialog alertDialog = builder.create();
@@ -120,6 +119,9 @@ public class ConfirmEditActivity extends AppCompatActivity {
         findsref.update("nationality", mPerson.getNationality());
         findsref.update("details", mPerson.getDetails());
         findsref.update("contactDetails", mPerson.getContactDetails());
+
+        startActivity(new Intent(ConfirmEditActivity.this, MainActivity.class));
+        finish();
 
 
     }

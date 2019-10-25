@@ -124,6 +124,15 @@
     <string name="hold_item_for_more_options">Hold item for more options</string>
     <string name="zero_uploads">You have zero Uploads</string>
     <string name="total_upl">Total uploads:\t</string>
+    <string name="remember_you_cannot_edit_the_name_or_images_field_once_added">Remember: You cannot edit the name or images field once added</string>
+    <string name="remember_you_canoot_edit_the_name_or_the_images_after_the_upload">Remember: You cannot edit the name or the images after the upload.</string>
+    <string name="millions_of_individuals_go_missing_each_year">Millions of individuals go missing each year.</string>
+    <string name="and_among_them_around_8_million_are_children">And among them, around 8 Million are children.</string>
+    <string name="one_missing_child_is_one_too_many">One missing child is one too many</string>
+    <string name="most_developing_countries">Most developing countries do not have established protocol or central missing child registries making them more difficult to find</string>
+    <string name="findme_app_is_an_initiative_to_help_tackle_with_these_problems"><![CDATA[FindMe app is an initiative to help & tackle with these problems]]></string>
+    <string name="it_s_a_community_app_where_anybody_can_upload_and_access_the_query_about_lost_missing_individual">It\'s a community app where anybody can upload and access the query about Lost/Missing individual</string>
+    <string name="https_www_icmec_org_missing_children_statistics">*https://www.icmec.org/missing-children-statistics/</string>
 
 
 </resources>

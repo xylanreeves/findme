@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginRight="32dp"
+        android:text="@string/findme_app_is_an_initiative_to_help_tackle_with_these_problems"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+
+        android:textSize="18sp" />
+
+
+    <ImageView
+        android:id="@+id/imagefrag3"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:layout_below="@id/tv_1"
+        android:layout_marginTop="32dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/frag_3" />
+
+    <TextView
+        android:id="@+id/tv_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imagefrag3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="32dp"
+        android:text="@string/it_s_a_community_app_where_anybody_can_upload_and_access_the_query_about_lost_missing_individual"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

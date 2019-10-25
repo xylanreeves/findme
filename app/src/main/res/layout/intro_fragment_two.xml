@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    >
+
+
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="64dp"
+        android:text="@string/one_missing_child_is_one_too_many"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+
+        android:textSize="18sp" />
+
+
+    <ImageView
+        android:id="@+id/imagefrag2"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:layout_below="@id/tv_1"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/frag_2"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:id="@+id/tv_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imagefrag2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:paddingStart="24dp"
+        android:paddingRight="24dp"
+        android:text="@string/most_developing_countries"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:paddingLeft="24dp" />
+
+    <TextView
+        android:id="@+id/source_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_2"
+        android:text="@string/https_www_icmec_org_missing_children_statistics"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="32dp"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="96dp"
+        />
+
+
+</RelativeLayout>
