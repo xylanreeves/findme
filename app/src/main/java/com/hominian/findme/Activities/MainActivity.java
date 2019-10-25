@@ -300,4 +300,8 @@ public class MainActivity extends AppCompatActivity {
     public void yourUploadsPage(View view) {
         startActivity(new Intent(MainActivity.this, UploadsActivity.class));
     }
+
+    public void aboutApp(View view) {
+        startActivity(new Intent(MainActivity.this, IntroActivity.class));
+    }
 }

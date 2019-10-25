@@ -210,6 +210,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:text="@string/about"
+                android:onClick="aboutApp"
                 android:textColor="@drawable/text_selector_generic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
