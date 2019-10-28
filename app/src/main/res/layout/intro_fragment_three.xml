@@ -26,8 +26,7 @@
         android:layout_height="420dp"
         android:layout_below="@id/tv_1"
         android:layout_marginTop="32dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/frag_3" />
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_2"

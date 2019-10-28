@@ -27,8 +27,6 @@
         android:layout_height="420dp"
         android:layout_below="@id/tv_1"
         android:layout_marginTop="32dp"
-        android:src="@drawable/frag_1"
-        android:scaleType="centerInside"
         />
 
     <TextView

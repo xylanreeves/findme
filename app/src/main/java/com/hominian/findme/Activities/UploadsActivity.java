@@ -66,7 +66,6 @@ public class UploadsActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
-                mUser = mAuth.getCurrentUser();
                 if (mAuth.getCurrentUser() != null) {
                     heading.setVisibility(View.GONE);
                     signInBtn.setVisibility(View.GONE);
@@ -188,10 +187,10 @@ public class UploadsActivity extends AppCompatActivity {
                                         int hoursRemaining = (int) ((27 * 24) - (timePassed / 3600));
                                         int minutesRemaining = (int) ((27 * 24 * 60) - (timePassed / 60));
 
-                                        if (minutesRemaining > 0){
+                                        if (minutesRemaining > 0) {
 
                                             if (hoursRemaining < 24) {
-                                                if (minutesRemaining < 60){
+                                                if (minutesRemaining < 60) {
                                                     Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + minutesRemaining + " minutes.", Toast.LENGTH_SHORT).show();
                                                 } else {
                                                     Toast.makeText(UploadsActivity.this, "Deletion can be performed after " + hoursRemaining + " hour.", Toast.LENGTH_SHORT).show();
@@ -254,13 +253,8 @@ public class UploadsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        uploadsAdapter.startListening();
         mAuth.addAuthStateListener(authStateListener);
-
-        if (mAuth.getCurrentUser() != null) {
-            uploadsAdapter.startListening();
-        }
-        ;
     }
 
     @Override
@@ -274,8 +268,6 @@ public class UploadsActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mAuth.getCurrentUser() != null) {
-            uploadsAdapter.stopListening();
-        }
+        uploadsAdapter.stopListening();
     }
 }

@@ -40,7 +40,6 @@ dependencies {
 
     //firebase
     implementation 'com.firebaseui:firebase-ui-firestore:6.0.2'
-    implementation 'com.google.firebase:firebase-ads:18.2.0'
     implementation 'com.google.firebase:firebase-database:19.2.0'
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-auth:19.1.0'
@@ -83,6 +82,9 @@ dependencies {
 
     //appIntro
     implementation 'com.github.AppIntro:AppIntro:5.1.0'
+
+    //ads
+    implementation 'com.google.android.gms:play-services-ads:18.2.0'
 
 }
 apply plugin: 'com.google.gms.google-services'

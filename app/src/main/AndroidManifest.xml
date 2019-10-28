@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -68,7 +69,7 @@
         <activity
             android:name=".Activities.MainActivity"
             android:screenOrientation="portrait"
-            tools:ignore="InnerclassSeparator"></activity>
+            tools:ignore="InnerclassSeparator"/>
         <activity
             android:name=".Activities.AddDetailsActivity"
             android:parentActivityName=".Activities.MainActivity"
@@ -87,7 +88,8 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-            android:value="true" />
+            android:value="TRUE" />
+
     </application>
 
 </manifest>
