@@ -460,7 +460,7 @@
             android:layout_below="@id/enter_details_tv"
             android:background="@color/colorPrimary"
             android:hint="@string/add_here"
-            android:maxLines="150"
+            android:maxLines="700"
             android:paddingStart="12dp"
             android:paddingLeft="12dp"
             android:paddingTop="12dp"

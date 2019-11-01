@@ -21,7 +21,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.hominian.findme.DataModels.PersonModel;
 import com.hominian.findme.R;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -55,9 +54,6 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private FirebaseAuth.AuthStateListener authStateListener;
-
-    //FirebaseFirestore_database
-    private FirebaseFirestore rootRef;
 
 
     private EditText name;
@@ -139,35 +135,40 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
                     .setPositiveButton("Okay", null);
             AlertDialog alertDialog = mBuilder.create();
             alertDialog.show();
-        }
+        } else if (mDetails.equals("")) {
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
+            mBuilder.setMessage("Details field cannot be left blank!")
+                    .setPositiveButton("Got it", null);
+            AlertDialog alertDialog = mBuilder.create();
+            alertDialog.show();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Please confirm the details in the next page.\n\nMake sure to check for any errors, typos or improvements!")
+                    .setNegativeButton("Go Back", null)
+                    .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Please confirm the details in the next page.\n\nMake sure to check for any errors, typos or improvements!")
-                .setNegativeButton("Go Back", null)
-                .setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
 
-
-                        List<Uri> imageList = new ArrayList<>();
-                        for (Uri u : imageUriList) {
-                            if (u != null) {
-                                imageList.add(u);
+                            List<Uri> imageList = new ArrayList<>();
+                            for (Uri u : imageUriList) {
+                                if (u != null) {
+                                    imageList.add(u);
+                                }
                             }
+                            PersonModel mPerson = new PersonModel(mName, mMissingSince, mAge, mGender, mEyeColor, mPersonalityType,
+                                    mHeight, mWeight, mNationality, mDetails, mContactDetail, imageList);
+
+                            Intent confirmPageIntent = new Intent(AddDetailsActivity.this, ConfirmDetails.class);
+                            confirmPageIntent.putExtra("personData", mPerson);
+                            startActivity(confirmPageIntent);
+
                         }
-                        PersonModel mPerson = new PersonModel(mName, mMissingSince, mAge, mGender, mEyeColor, mPersonalityType,
-                                mHeight, mWeight, mNationality, mDetails, mContactDetail, imageList);
+                    });
 
-                        Intent confirmPageIntent = new Intent(AddDetailsActivity.this, ConfirmDetails.class);
-                        confirmPageIntent.putExtra("personData", mPerson);
-                        startActivity(confirmPageIntent);
-
-                    }
-                });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
 
     }
 
@@ -300,19 +301,12 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     }
 
 
-
-
     private void cropImage() {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(1, 1)
                 .start(this);
     }
-
-
-
-
-
 
 
     @Override
@@ -355,13 +349,6 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     }
 
 
-
-
-
-
-
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -377,11 +364,10 @@ public class AddDetailsActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
 
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, Arrays.asList(PERMISSIONS))){
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, Arrays.asList(PERMISSIONS))) {
             new AppSettingsDialog.Builder(this).build().show();
         }
     }
-
 
 
 }

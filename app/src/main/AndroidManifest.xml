@@ -48,6 +48,8 @@
         <activity
             android:name=".Activities.UploadsActivity"
             android:screenOrientation="portrait"
+
+            android:parentActivityName=".Activities.MainActivity"
             tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Activities.TermsActivity"

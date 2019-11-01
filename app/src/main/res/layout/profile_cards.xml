@@ -54,10 +54,14 @@
                 android:ems="10"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
-                android:shadowColor="#4D000000"
                 android:singleLine="true"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/light_font"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                />
 
         </LinearLayout>
 
@@ -77,9 +81,13 @@
                     android:text="Name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:textColor="@color/light_font"
+                    android:shadowColor="@color/text_shadow"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2"
 
                     />
 
@@ -87,20 +95,31 @@
                     android:id="@+id/name_comma_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"
+                    android:text=","
+                    android:textColor="@color/light_font"
+                    android:shadowColor="@color/text_shadow"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2"
                     />
 
                 <TextView
                     android:id="@+id/age_tv_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginLeft="4dp"
-                    android:textColor="@color/colorPrimary"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginLeft="1dp"
+                    android:text="21"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/light_font"
+                    android:shadowColor="@color/text_shadow"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2"
+                    />
 
         </LinearLayout>
 
@@ -123,10 +142,14 @@
                 android:ems="10"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
-                android:shadowColor="#4D000000"
                 android:singleLine="true"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/light_font"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                />
 
         </LinearLayout>
 

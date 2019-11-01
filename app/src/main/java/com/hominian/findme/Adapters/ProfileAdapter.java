@@ -10,12 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.firestore.ChangeEventListener;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.firestore.ObservableSnapshotArray;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.hominian.findme.DataModels.PersonModel;
 import com.hominian.findme.R;
 
@@ -24,17 +31,39 @@ import org.apache.commons.text.WordUtils;
 import java.util.List;
 import java.util.Random;
 
-public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, ProfileAdapter.ProfileHolder> {
+public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, ProfileAdapter.ProfileHolder> implements ChangeEventListener, LifecycleObserver {
 
+
+    private static final String TAG = "ProfileAdapter";
 
     private OnItemClickListener mListener;
     private OnItemLongClickListener onItemLongClickListener;
     private Context mContext;
-
+    private FirestoreRecyclerOptions<PersonModel> mOptions;
+    private ObservableSnapshotArray<PersonModel> mSnapshots;
 
     public ProfileAdapter(@NonNull FirestoreRecyclerOptions<PersonModel> options, Context context) {
         super(options);
+        this.mOptions = options;
+        this.mSnapshots = options.getSnapshots();
         this.mContext = context;
+
+
+        if (options.getOwner() != null) {
+            options.getOwner().getLifecycle().addObserver(this);
+        }
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return mSnapshots.isListening(this) ? mSnapshots.size() : 0;
+    }
+
+
+    @Override
+    public void onError(@NonNull FirebaseFirestoreException e) {
+        super.onError(e);
     }
 
     @SuppressLint("SetTextI18n")
@@ -53,7 +82,11 @@ public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, Profil
 
         String comma = age.equals("") ? "" : ",";
         if (!name.equals("")) {
-            holder.nameTv.setText(WordUtils.capitalizeFully(name));
+            String[] words = name.trim().split(" ");
+            if (words.length >= 2) {
+                String twoWordsName = words[0] + " " + words[1];
+                holder.nameTv.setText(WordUtils.capitalizeFully(twoWordsName));
+            } else holder.nameTv.setText(WordUtils.capitalizeFully(name));
         } else {
             holder.nameTv.setText("No Name");
         }
@@ -157,6 +190,66 @@ public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, Profil
     }
 
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void startListening() {
+        if (!mSnapshots.isListening(this)) {
+            mSnapshots.addChangeEventListener(this);
+        }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void stopListening() {
+        mSnapshots.removeChangeEventListener(this);
+        notifyDataSetChanged();
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    void cleanup(LifecycleOwner source) {
+        source.getLifecycle().removeObserver(this);
+    }
+
+    @NonNull
+    public ObservableSnapshotArray<PersonModel> getSnapshots() {
+        return mSnapshots;
+    }
+
+    @NonNull
+    public PersonModel getItem(int position) {
+        return mSnapshots.get(position);
+    }
+
+
+    @Override
+    public void onDataChanged() {
+        super.onDataChanged();
+    }
+
+    /**
+     * Re-initialize the Adapter with a new set of options. Can be used to change the query without
+     * re-constructing the entire adapter.
+     */
+    public void updateOptions(@NonNull FirestoreRecyclerOptions<PersonModel> options) {
+        // Tear down old options
+        boolean wasListening = mSnapshots.isListening(this);
+        if (mOptions.getOwner() != null) {
+            mOptions.getOwner().getLifecycle().removeObserver(this);
+        }
+        mSnapshots.clear();
+        stopListening();
+
+        // Set up new options
+        mOptions = options;
+        mSnapshots = options.getSnapshots();
+        if (options.getOwner() != null) {
+            options.getOwner().getLifecycle().addObserver(this);
+        }
+        if (wasListening) {
+            startListening();
+        }
+    }
+
+
+
     class ProfileHolder extends RecyclerView.ViewHolder {
 
         TextView nameTv;
@@ -196,7 +289,12 @@ public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, Profil
                     return true;
                 }
             });
+
+
+
         }
+
+
 
     }
 

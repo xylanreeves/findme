@@ -25,7 +25,7 @@ public class IntroFragmentTwo extends Fragment {
         imageView2 = view.findViewById(R.id.imagefrag2);
         Glide.with(this)
                 .load(R.drawable.frag_2)
-                .centerInside()
+                .centerCrop()
                 .into(imageView2);
 
         return view;

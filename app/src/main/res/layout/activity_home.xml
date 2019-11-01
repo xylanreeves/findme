@@ -40,61 +40,59 @@
                         android:id="@+id/drawer_button_id"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
                         android:layout_alignParentLeft="true"
+                        android:layout_marginStart="0dp"
                         android:layout_marginLeft="0dp"
                         android:background="@color/colorPrimary"
                         android:clickable="true"
+                        android:focusable="true"
                         android:onClick="drawerToggle"
                         android:paddingHorizontal="12dp"
                         android:paddingLeft="12dp"
                         android:paddingRight="12dp"
-                        app:srcCompat="@drawable/ic_menu"
-                        android:focusable="true"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="0dp" />
+                        app:srcCompat="@drawable/ic_menu" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_toStartOf="@id/search_id"
                         android:layout_toLeftOf="@id/search_id"
+                        android:layout_toEndOf="@+id/drawer_button_id"
                         android:layout_toRightOf="@+id/drawer_button_id"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
                         android:paddingTop="10dp"
+                        android:paddingRight="10dp"
                         android:paddingBottom="10dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/fnme"
-                        android:layout_toStartOf="@id/search_id"
-                        android:layout_toEndOf="@+id/drawer_button_id" />
+                        app:srcCompat="@drawable/fnme" />
 
                     <ImageView
                         android:id="@+id/search_id"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:clickable="true"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        app:srcCompat="@drawable/ic_search_black_24dp"
                         android:layout_toStartOf="@id/preferences_id"
                         android:layout_toLeftOf="@id/preferences_id"
+                        android:clickable="true"
                         android:focusable="true"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
                         android:visibility="invisible"
-                        />
+                        app:srcCompat="@drawable/ic_search_black_24dp" />
 
                     <ImageView
                         android:id="@+id/preferences_id"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:clickable="true"
+                        android:focusable="true"
                         android:onClick="preferencesClick"
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
-                        app:srcCompat="@drawable/ic_tune"
-                        android:focusable="true"
-                        android:layout_alignParentEnd="true"
                         android:visibility="invisible"
-                        />
+                        app:srcCompat="@drawable/ic_tune" />
 
                 </RelativeLayout>
 
@@ -103,21 +101,29 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewId"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeMain"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/appbar_id"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="-1dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginBottom="-1dp"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:layout_below="@id/appbar_id"
+            >
 
-            />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="-1dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="-1dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+
+                />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
         <Button
             android:id="@+id/bottom_add_button"
@@ -214,8 +220,8 @@
                 android:layout_marginBottom="32dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:text="@string/about"
                 android:onClick="aboutApp"
+                android:text="@string/about"
                 android:textColor="@drawable/text_selector_generic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -271,26 +277,25 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="24dp"
-                    android:paddingStart="24dp"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
+                    android:layout_gravity="start"
                     android:background="@drawable/flag_transparent"
-                    android:text="@string/your_uploads"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/quantum_black_hint_text"
-                    android:textSize="16sp"
-                    android:textAllCaps="false"
-                    android:drawableLeft="@drawable/ic_person_outline_black_24dp"
-                    android:drawableStart="@drawable/ic_person_outline_black_24dp"
                     android:clickable="true"
+                    android:drawableStart="@drawable/ic_person_outline_black_24dp"
+                    android:drawableLeft="@drawable/ic_person_outline_black_24dp"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
-                    tools:targetApi="m"
-                    tools:ignore="RtlSymmetry,UnusedAttribute"
-                    android:layout_gravity="start"
                     android:onClick="yourUploadsPage"
-                    />
+                    android:paddingStart="24dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/your_uploads_tab"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/menu_btn_color"
+                    android:textSize="16sp"
+                    tools:ignore="RtlSymmetry,UnusedAttribute"
+                    tools:targetApi="m" />
 
             </LinearLayout>
 

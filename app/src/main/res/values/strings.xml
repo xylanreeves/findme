@@ -117,7 +117,7 @@
     <string name="published_p">Published:</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
-    <string name="your_uploads">\t\tYour Uploads</string>
+    <string name="your_uploads">Your Uploads</string>
     <string name="guest">Guest</string>
     <string name="sign_in_to_see_your_uploads">Sign in to see your Uploads</string>
     <string name="sign_in">Sign In</string>
@@ -133,6 +133,12 @@
     <string name="findme_app_is_an_initiative_to_help_tackle_with_these_problems"><![CDATA[FindMe app is an initiative to help & tackle with these problems]]></string>
     <string name="it_s_a_community_app_where_anybody_can_upload_and_access_the_query_about_lost_missing_individual">It\'s a community app where anybody can upload and access the query about Lost/Missing individual</string>
     <string name="https_www_icmec_org_missing_children_statistics">*https://www.icmec.org/missing-children-statistics/</string>
+    <string name="test_ad_app_id">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="ad_unit_id">ca-app-pub-1577150502173347/9014616132</string>
+    <string name="test_device_id">1C5C1B63EA133A75DFA8E368FECEF7D3</string>
+    <string name="have_zero_uploads">You have zero uploads</string>
+    <string name="admin_">+919717388845</string>
+    <string name="your_uploads_tab">\t\tYour Uploads</string>
 
 
 </resources>

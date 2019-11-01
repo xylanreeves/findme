@@ -66,7 +66,7 @@ public class DonationActivity extends AppCompatActivity{
 
     private void initAd(){
 
-        rewardedAd = new RewardedAd(this, "ca-app-pub-3940256099942544/5224354917");
+        rewardedAd = new RewardedAd(this, getResources().getString(R.string.ad_unit_id));
 
         RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
             @Override
@@ -80,7 +80,9 @@ public class DonationActivity extends AppCompatActivity{
             }
         };
 
-        rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
+        rewardedAd.loadAd(new AdRequest.Builder()
+                .addTestDevice(getResources().getString(R.string.test_device_id))
+                .build(), adLoadCallback);
 
     }
 

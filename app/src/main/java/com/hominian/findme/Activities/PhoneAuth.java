@@ -65,6 +65,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
 
     private boolean anotherTry = false;
 
+    private String flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,16 +193,23 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                                 });
                             }
 
-                            Toast.makeText(PhoneAuth.this, "Verification Complete", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(PhoneAuth.this, AddDetailsActivity.class));
-                            finish();
+                            flag = getIntent().getStringExtra("uploadsflag");
+                            if (flag != null && flag.equals("blueFlag")){
+                                Toast.makeText(PhoneAuth.this, "Signed In", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(PhoneAuth.this, UploadsActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(PhoneAuth.this, "Verification Complete", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(PhoneAuth.this, AddDetailsActivity.class));
+                                finish();
+                            }
 
                         } else {
 
 
                             tV3.setText(R.string.sign_fail);
                             Toast.makeText(PhoneAuth.this, "Please try again", Toast.LENGTH_LONG).show();
-
+                            verifyCode.setEnabled(true);
                         }
                     }
                 });
@@ -218,6 +226,8 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                 if (!ccp.isValidFullNumber()) {
                     Toast.makeText(this, "Please Enter a Valid Phone Number", Toast.LENGTH_SHORT).show();
                 } else {
+
+
                     sendCode(number);
                     Toast.makeText(PhoneAuth.this, "Code sent to " + number, Toast.LENGTH_SHORT).show();
 
@@ -248,9 +258,9 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
 
             if (pinView.getText().equals("") || pinView.getItemCount() < 6) {
                 Toast.makeText(this, "Code Not valid!", Toast.LENGTH_SHORT).show();
+            } else {
+                verifyCode(pinView.getText().toString());
             }
-            verifyCode(pinView.getText().toString());
-
         }
     }
 

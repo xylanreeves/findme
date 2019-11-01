@@ -637,7 +637,8 @@
                 android:background="@color/colorPrimary"
                 android:elevation="4dp"
                 app:title="Edit Details"
-                app:titleTextColor="@color/text_clr" />
+                app:titleTextColor="@color/text_clr"
+                tools:targetApi="lollipop" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

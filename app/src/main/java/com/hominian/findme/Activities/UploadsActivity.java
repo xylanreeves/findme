@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -13,8 +14,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.Timestamp;
@@ -31,8 +34,11 @@ import com.hominian.findme.R;
 
 public class UploadsActivity extends AppCompatActivity {
 
+    private static final String TAG = "UploadsActivity";
+
     private TextView heading;
     private TextView signInBtn;
+    private Toolbar toolbar;
 
     private RecyclerView recyclerView;
     private ProfileAdapter uploadsAdapter;
@@ -46,11 +52,24 @@ public class UploadsActivity extends AppCompatActivity {
     private CollectionReference findsRef;
     private CollectionReference uploaderRef;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private Query query;
+    private FirestoreRecyclerOptions<PersonModel> options;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_uploads);
+
+        toolbar = findViewById(R.id.toolbar_uploads);
+        setSupportActionBar(toolbar);
+
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         db = FirebaseFirestore.getInstance();
         findsRef = db.collection("finds");
@@ -60,52 +79,73 @@ public class UploadsActivity extends AppCompatActivity {
         signInBtn = findViewById(R.id.sign_in_button_upld);
         mAuth = FirebaseAuth.getInstance();
         recyclerView = findViewById(R.id.recycle_uploads);
+        swipeRefreshLayout = findViewById(R.id.swipeLayout);
+
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                if (mAuth.getCurrentUser() != null) {
-                    heading.setVisibility(View.GONE);
-                    signInBtn.setVisibility(View.GONE);
-                } else {
-                    heading.setText(getResources().getString(R.string.sign_in_to_see_your_uploads));
-                    heading.setVisibility(View.VISIBLE);
-                    signInBtn.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                    signInBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(UploadsActivity.this, PhoneAuth.class));
-                            finish();
-                        }
-                    });
-                }
-
-
+                mUser = firebaseAuth.getCurrentUser();
             }
         };
 
 
         if (mAuth.getCurrentUser() != null) {
+
+
+            signInBtn.setVisibility(View.GONE);
+            heading.setVisibility(View.GONE);
+
+
             initRecycleView();
-            admin = mAuth.getCurrentUser().getPhoneNumber().equals("+919717388845");
+            Toast.makeText(UploadsActivity.this, "Hold the item for more options", Toast.LENGTH_SHORT).show();
+
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    uploadsAdapter.notifyDataSetChanged();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }, 1000);
+                }
+            });
+
+            admin = mAuth.getCurrentUser().getPhoneNumber().equals(getResources().getString(R.string.admin_));
+
+
+        } else {
+
+            heading.setText(getResources().getString(R.string.sign_in_to_see_your_uploads));
+            heading.setVisibility(View.VISIBLE);
+            signInBtn.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.GONE);
+            signInBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(UploadsActivity.this, PhoneAuth.class).putExtra("uploadsflag", "blueFlag"));
+                    finish();
+                }
+            });
         }
+
 
     }
 
     @SuppressLint("SetTextI18n")
     private void initRecycleView() {
 
-        Query query = findsRef.whereEqualTo("uploaderId", mAuth.getCurrentUser().getPhoneNumber())
+        query = findsRef.whereEqualTo("uploaderId", mAuth.getCurrentUser().getPhoneNumber())
                 .orderBy("timeStamp", Query.Direction.DESCENDING);
 
 
-        FirestoreRecyclerOptions<PersonModel> options = new FirestoreRecyclerOptions.Builder<PersonModel>()
+        options = new FirestoreRecyclerOptions.Builder<PersonModel>()
                 .setQuery(query, PersonModel.class)
                 .build();
-
 
         uploadsAdapter = new ProfileAdapter(options, this);
 
@@ -113,7 +153,6 @@ public class UploadsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(uploadsAdapter);
 
-        Toast.makeText(UploadsActivity.this, "Hold the item for more options", Toast.LENGTH_SHORT).show();
 
         //Clicks
 
@@ -138,7 +177,8 @@ public class UploadsActivity extends AppCompatActivity {
                         person.getContactDetails(),
                         person.getImageDownloadUrls(),
                         person.getTimeStamp(),
-                        person.getUploaderId());
+                        person.getUploaderId()
+                );
 
                 Intent intent = new Intent(UploadsActivity.this, ProfileActivity.class);
                 intent.putExtra("personObject", mPerson);
@@ -160,10 +200,12 @@ public class UploadsActivity extends AppCompatActivity {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
 
+                            PersonModel personModel = documentSnapshot.toObject(PersonModel.class);
+
                             switch (item.getItemId()) {
                                 case R.id.option_edit:
                                     //action
-                                    PersonModel personModel = documentSnapshot.toObject(PersonModel.class);
+
 
                                     Intent intent = new Intent(UploadsActivity.this, EditDetailsActivity.class);
                                     intent.putExtra("personId", personModel.getPersonId());
@@ -174,14 +216,11 @@ public class UploadsActivity extends AppCompatActivity {
                                 case R.id.option_delete:
                                     //action
 
-                                    PersonModel nPerson = documentSnapshot.toObject(PersonModel.class);
-
                                     if (!admin) {
 
-
                                         long timePassed = 0;
-                                        if (nPerson != null) {
-                                            timePassed = Timestamp.now().getSeconds() - (nPerson.getTimeStamp().getSeconds());
+                                        if (personModel != null) {
+                                            timePassed = Timestamp.now().getSeconds() - (personModel.getTimeStamp().getSeconds());
                                         }
                                         int daysRemaining = (int) (27 - (timePassed / 86400));
                                         int hoursRemaining = (int) ((27 * 24) - (timePassed / 3600));
@@ -235,7 +274,8 @@ public class UploadsActivity extends AppCompatActivity {
 
                                     }
 
-                                default:
+                                    break;
+
                             }
                             return false;
                         }
@@ -247,13 +287,17 @@ public class UploadsActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        uploadsAdapter.startListening();
+
+        if (mAuth.getCurrentUser() != null && uploadsAdapter != null) {
+            uploadsAdapter.startListening();
+        }
         mAuth.addAuthStateListener(authStateListener);
     }
 
@@ -268,6 +312,8 @@ public class UploadsActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        uploadsAdapter.stopListening();
+        if (uploadsAdapter != null) {
+            uploadsAdapter.stopListening();
+        }
     }
 }

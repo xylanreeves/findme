@@ -110,6 +110,9 @@ public class ConfirmDetails extends AppCompatActivity {
     private ProgressBar progressHorizontal;
     private static int counter;
 
+    private Handler mHandler;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -213,7 +216,6 @@ public class ConfirmDetails extends AppCompatActivity {
         final String phoneNumber = mAuth.getCurrentUser().getPhoneNumber();
 
 
-
         if (imageList.size() > 0) {
 
             errorTv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -271,7 +273,7 @@ public class ConfirmDetails extends AppCompatActivity {
                         mUpload.setVisibility(View.VISIBLE);
                     } else {
                         errorTv.setText("Server Error!\nPlease try again");
-                        errorTv.setTextColor(getResources().getColor(R.color.quantum_googred));
+                        errorTv.setTextColor(getResources().getColor(R.color.red_primary));
                         errorTv.setVisibility(View.VISIBLE);
                         mUpload.setVisibility(View.VISIBLE);
                         mBAck.setEnabled(true);
@@ -290,7 +292,7 @@ public class ConfirmDetails extends AppCompatActivity {
         imagesDocument = mStorageReference.child("person_images");
         errorTv.setText("Processing Images...");
 
-        counter=0;
+        counter = 0;
         for (int i = 0; i < imageList.size(); i++) {
 
             final int inf = i;
@@ -328,18 +330,18 @@ public class ConfirmDetails extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Uri> task) {
 
                                         counter++;
-                                        if (task.isSuccessful() && task.getResult() != null){
-                                        findsRef.update("imageDownloadUrls", FieldValue.arrayUnion(task.getResult().toString()));
-                                        errorTv.setText("Uploading image "+ (inf+1) + "/" + imageList.size());
-                                        errorTv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                                        errorTv.setVisibility(View.VISIBLE);
+                                        if (task.isSuccessful() && task.getResult() != null) {
+                                            findsRef.update("imageDownloadUrls", FieldValue.arrayUnion(task.getResult().toString()));
+                                            errorTv.setText("Uploading image " + (inf + 1) + "/" + imageList.size());
+                                            errorTv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                                            errorTv.setVisibility(View.VISIBLE);
 
-                                        } else  {
+                                        } else {
                                             imagesDocument.child(findsRef.getId()).child("image" + inf + ".webp").delete();
                                             Toast.makeText(ConfirmDetails.this, "ImageUrl Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                         }
 
-                                        if (counter >= imageList.size()-1) {
+                                        if (counter >= imageList.size() - 1) {
 
                                             CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
                                                 @Override
@@ -356,14 +358,26 @@ public class ConfirmDetails extends AppCompatActivity {
                                                 }
                                             }.start();
 
+                                            mUpload.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    disclaimerDialog.dismiss();
+                                                    mHandler.removeCallbacksAndMessages(null);
+                                                    startActivity(new Intent(ConfirmDetails.this, MainActivity.class));
+                                                    finish();
+                                                }
+                                            });
                                             mProgressBar.setVisibility(View.INVISIBLE);
-
-                                            mUpload.setEnabled(false);
+                                            mUpload.setText("Redirect Now");
                                             mUpload.setVisibility(View.VISIBLE);
+                                            mUpload.setEnabled(true);
 
-                                            new Handler().postDelayed(new Runnable() {
+                                            mHandler = new Handler();
+
+                                            mHandler.postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
+                                                    disclaimerDialog.dismiss();
                                                     startActivity(new Intent(ConfirmDetails.this, MainActivity.class));
                                                     finish();
                                                 }
@@ -388,7 +402,6 @@ public class ConfirmDetails extends AppCompatActivity {
     }
 
 
-
     @SuppressLint("SetTextI18n")
     private void initLayout() {
 
@@ -396,86 +409,86 @@ public class ConfirmDetails extends AppCompatActivity {
         Date date = new Date();
 
 
-            String name = person.getName();
-            String age = person.getAge();
-            String comma = age.equals("") ? "" : ",";
+        String name = person.getName();
+        String age = person.getAge();
+        String comma = age.equals("") ? "" : ",";
 
-            String gender = person.getGender();
-            String nationality = person.getNationality();
-            String genderComma = nationality.equals("") ? "" : ",";
+        String gender = person.getGender();
+        String nationality = person.getNationality();
+        String genderComma = nationality.equals("") ? "" : ",";
 
-            String missingSince = person.getMissingSince();
-            String publishedOn = formatter.format(date);
+        String missingSince = person.getMissingSince();
+        String publishedOn = formatter.format(date);
 
-            String eyeColor = person.getEyeColor();
-            String height = person.getHeight();
-            String weight = person.getWeight();
-            String personalityType = person.getPersonality();
+        String eyeColor = person.getEyeColor();
+        String height = person.getHeight();
+        String weight = person.getWeight();
+        String personalityType = person.getPersonality();
 
-            String details = person.getDetails();
-            String contacts = person.getContactDetails();
-
-
-            if (name.equals("")) {
-                nameTv.setText(R.string.no_name);
-            } else nameTv.setText(WordUtils.capitalizeFully(name) + comma);
-
-            if (age.equals("")) {
-                ageTv.setVisibility(View.GONE);
-            } else ageTv.setText(age);
-
-            if (gender.equals("")) {
-                genderTv.setVisibility(View.GONE);
-            } else genderTv.setText(WordUtils.capitalizeFully(gender) + genderComma);
-
-            if (nationality.equals("")) {
-                nationalityTv.setVisibility(View.GONE);
-            } else nationalityTv.setText(WordUtils.capitalizeFully(nationality));
+        String details = person.getDetails();
+        String contacts = person.getContactDetails();
 
 
-            if (missingSince.equals("")) {
-                missingSinceTv.setVisibility(View.GONE);
-                missingSinceField.setVisibility(View.GONE);
-            } else missingSinceTv.setText(missingSince);
+        if (name.equals("")) {
+            nameTv.setText(R.string.no_name);
+        } else nameTv.setText(WordUtils.capitalizeFully(name) + comma);
+
+        if (age.equals("")) {
+            ageTv.setVisibility(View.GONE);
+        } else ageTv.setText(age);
+
+        if (gender.equals("")) {
+            genderTv.setVisibility(View.GONE);
+        } else genderTv.setText(WordUtils.capitalizeFully(gender) + genderComma);
+
+        if (nationality.equals("")) {
+            nationalityTv.setVisibility(View.GONE);
+        } else nationalityTv.setText(WordUtils.capitalizeFully(nationality));
 
 
-            publishedOnTv.setText(publishedOn);
-
-            if (eyeColor.equals("")) {
-                eyeColorField.setVisibility(View.GONE);
-                eyeColorTv.setVisibility(View.GONE);
-            } else eyeColorTv.setText(WordUtils.capitalizeFully(eyeColor));
-
-            if (height.equals("")) {
-                heightField.setVisibility(View.GONE);
-                heightTv.setVisibility(View.GONE);
-            } else heightTv.setText(height);
-
-            if (weight.equals("")) {
-                weightField.setVisibility(View.GONE);
-                weightTv.setVisibility(View.GONE);
-            } else weightTv.setText(weight);
-
-            if (personalityType.equals("")) {
-                personalityField.setVisibility(View.GONE);
-                personalityTv.setVisibility(View.GONE);
-            } else personalityTv.setText(personalityType);
+        if (missingSince.equals("")) {
+            missingSinceTv.setVisibility(View.GONE);
+            missingSinceField.setVisibility(View.GONE);
+        } else missingSinceTv.setText(missingSince);
 
 
-            if (details.equals("")) {
-                detailsField.setVisibility(View.GONE);
-                detailsTv.setVisibility(View.GONE);
-            } else detailsTv.setText(details);
+        publishedOnTv.setText(publishedOn);
 
-            if (contacts.equals("")) {
-                contactsField.setVisibility(View.GONE);
-                contactsTv.setVisibility(View.GONE);
-            } else contactsTv.setText(contacts);
+        if (eyeColor.equals("")) {
+            eyeColorField.setVisibility(View.GONE);
+            eyeColorTv.setVisibility(View.GONE);
+        } else eyeColorTv.setText(WordUtils.capitalizeFully(eyeColor));
+
+        if (height.equals("")) {
+            heightField.setVisibility(View.GONE);
+            heightTv.setVisibility(View.GONE);
+        } else heightTv.setText(height);
+
+        if (weight.equals("")) {
+            weightField.setVisibility(View.GONE);
+            weightTv.setVisibility(View.GONE);
+        } else weightTv.setText(weight);
+
+        if (personalityType.equals("")) {
+            personalityField.setVisibility(View.GONE);
+            personalityTv.setVisibility(View.GONE);
+        } else personalityTv.setText(personalityType);
+
+
+        if (details.equals("")) {
+            detailsField.setVisibility(View.GONE);
+            detailsTv.setVisibility(View.GONE);
+        } else detailsTv.setText(details);
+
+        if (contacts.equals("")) {
+            contactsField.setVisibility(View.GONE);
+            contactsTv.setVisibility(View.GONE);
+        } else contactsTv.setText(contacts);
 
 
     }
 
-    private void showDisclaimerDialog(){
+    private void showDisclaimerDialog() {
         errorTv.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         mUpload.setEnabled(true);
@@ -486,7 +499,7 @@ public class ConfirmDetails extends AppCompatActivity {
     }
 
 
-    private void initFindViewByIds(){
+    private void initFindViewByIds() {
 
         nameTv = findViewById(R.id.nameTv_c);
         ageTv = findViewById(R.id.ageTv_c);

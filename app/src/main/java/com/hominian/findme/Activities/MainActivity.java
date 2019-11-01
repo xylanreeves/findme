@@ -3,6 +3,7 @@ package com.hominian.findme.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,16 +50,18 @@ public class MainActivity extends AppCompatActivity {
 
     private ProfileAdapter profileAdapter;
 
-    RecyclerView recyclerView;
-    Button addButton;
+    private RecyclerView recyclerView;
+    private Button addButton;
 
 
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        swipeRefreshLayout = findViewById(R.id.swipeMain);
         db = FirebaseFirestore.getInstance();
         findsReference = db.collection("finds");
         uploaderRef = db.collection("uploader");
@@ -87,6 +91,21 @@ public class MainActivity extends AppCompatActivity {
 
         InitRecyclerView();
         buttonSlideAnimation();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                profileAdapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+
+
 
     }
 
@@ -131,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         FirestoreRecyclerOptions<PersonModel> options = new FirestoreRecyclerOptions.Builder<PersonModel>()
                 .setQuery(query, PersonModel.class)
                 .build();
+
 
         profileAdapter = new ProfileAdapter(options, this);
 

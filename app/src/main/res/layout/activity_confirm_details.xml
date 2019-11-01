@@ -207,13 +207,13 @@
     <TextView
         android:id="@+id/detailTv_c"
         android:layout_width="match_parent"
-        android:layout_height="184dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:background="@color/colorPrimary"
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="16dp"
+        android:paddingBottom="64dp"
         android:text="Details goes here"
         android:textSize="16sp"
         />
