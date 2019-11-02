@@ -11,7 +11,7 @@
 
 
     <!--addDetails_Page-->
-    <string name="add_upto_5">Add upto 5 Photos</string>
+    <string name="add_upto_5">Add up to 5 Photos</string>
     <string name="name">Name</string>
     <string name="enter_name">Enter Name</string>
     <string name="age">Age</string>
@@ -122,7 +122,7 @@
     <string name="sign_in_to_see_your_uploads">Sign in to see your Uploads</string>
     <string name="sign_in">Sign In</string>
     <string name="hold_item_for_more_options">Hold item for more options</string>
-    <string name="zero_uploads">You have zero Uploads</string>
+    <string name="zero_uploads">You have zero uploads</string>
     <string name="total_upl">Total uploads:\t</string>
     <string name="remember_you_cannot_edit_the_name_or_images_field_once_added">Remember: You cannot edit the name or images field once added</string>
     <string name="remember_you_canoot_edit_the_name_or_the_images_after_the_upload">Remember: You cannot edit the name or the images after the upload.</string>

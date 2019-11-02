@@ -114,8 +114,9 @@ public class UploadsActivity extends AppCompatActivity {
                 }
             });
 
-            admin = mAuth.getCurrentUser().getPhoneNumber().equals(getResources().getString(R.string.admin_));
-
+            if (mAuth.getCurrentUser().getPhoneNumber() != null) {
+                admin = mAuth.getCurrentUser().getPhoneNumber().equals(getResources().getString(R.string.admin_));
+            }
 
         } else {
 
@@ -139,6 +140,7 @@ public class UploadsActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void initRecycleView() {
 
+
         query = findsRef.whereEqualTo("uploaderId", mAuth.getCurrentUser().getPhoneNumber())
                 .orderBy("timeStamp", Query.Direction.DESCENDING);
 
@@ -148,14 +150,31 @@ public class UploadsActivity extends AppCompatActivity {
                 .build();
 
         uploadsAdapter = new ProfileAdapter(options, this);
+        uploadsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+
+
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                int items = uploadsAdapter.getItemCount();
+                Toast.makeText(UploadsActivity.this, "Count: " + items +"/", Toast.LENGTH_SHORT).show();
+
+                if (items == 0){
+                    recyclerView.setVisibility(View.GONE);
+                    heading.setText(getResources().getString(R.string.zero_uploads));
+                    heading.setVisibility(View.VISIBLE);
+                }
+            }
+
+        });
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(uploadsAdapter);
 
 
-        //Clicks
 
+        //Clicks
         uploadsAdapter.setOnItemClickListener(new ProfileAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {

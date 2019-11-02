@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 final PopupMenu popupMenu = new PopupMenu(MainActivity.this, itemView);
                 popupMenu.inflate(R.menu.options_menu);
 
-                if (mAuth.getCurrentUser().getPhoneNumber().equals("+919717388845")) {
+                if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getPhoneNumber().equals(getResources().getString(R.string.admin_))) {
 
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
