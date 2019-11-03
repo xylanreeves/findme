@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +34,7 @@ import com.google.firebase.firestore.Query;
 import com.hominian.findme.Adapters.ProfileAdapter;
 import com.hominian.findme.DataModels.PersonModel;
 import com.hominian.findme.R;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,12 +58,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private MaterialSearchView materialSearchView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        toolbar = findViewById(R.id.toolbar_home);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+        materialSearchView = findViewById(R.id.material_search_bar);
         swipeRefreshLayout = findViewById(R.id.swipeMain);
         db = FirebaseFirestore.getInstance();
         findsReference = db.collection("finds");
@@ -89,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
         InitRecyclerView();
         buttonSlideAnimation();
 
@@ -107,7 +120,31 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                profileAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_home, menu);
+        MenuItem searchBar = menu.findItem(R.id.action_search);
+        materialSearchView.setMenuItem(searchBar);
+
+        return true;
+    }
+
 
     private void buttonSlideAnimation() {
         addButton = findViewById(R.id.bottom_add_button);
@@ -271,10 +308,6 @@ public class MainActivity extends AppCompatActivity {
     public void drawerToggle(View view) {
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.openDrawer(GravityCompat.START);
-    }
-
-    public void preferencesClick(View view) {
-        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
     }
 
     public void addPerson(View view) {

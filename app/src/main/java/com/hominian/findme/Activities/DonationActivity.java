@@ -82,6 +82,7 @@ public class DonationActivity extends AppCompatActivity{
 
         rewardedAd.loadAd(new AdRequest.Builder()
                 .addTestDevice(getResources().getString(R.string.test_device_id))
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build(), adLoadCallback);
 
     }

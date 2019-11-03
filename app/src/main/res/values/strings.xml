@@ -139,6 +139,11 @@
     <string name="have_zero_uploads">You have zero uploads</string>
     <string name="admin_">+919717388845</string>
     <string name="your_uploads_tab">\t\tYour Uploads</string>
+    <string name="search_">Search</string>
+    <string name="logo__">logo</string>
+    <string name="drawer_toggle_button">drawer toggle button</string>
+    <string name="drawer_header">Drawer Header</string>
+    <string name="profile_image">profile image</string>
 
 
 </resources>

@@ -152,12 +152,9 @@ public class UploadsActivity extends AppCompatActivity {
         uploadsAdapter = new ProfileAdapter(options, this);
         uploadsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
-
-
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 int items = uploadsAdapter.getItemCount();
-                Toast.makeText(UploadsActivity.this, "Count: " + items +"/", Toast.LENGTH_SHORT).show();
 
                 if (items == 0){
                     recyclerView.setVisibility(View.GONE);

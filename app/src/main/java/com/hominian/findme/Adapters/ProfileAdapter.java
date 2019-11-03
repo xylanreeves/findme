@@ -6,6 +6,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,10 +30,11 @@ import com.hominian.findme.R;
 
 import org.apache.commons.text.WordUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, ProfileAdapter.ProfileHolder> implements ChangeEventListener, LifecycleObserver {
+public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, ProfileAdapter.ProfileHolder> implements ChangeEventListener, LifecycleObserver, Filterable {
 
 
     private static final String TAG = "ProfileAdapter";
@@ -41,12 +44,16 @@ public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, Profil
     private Context mContext;
     private FirestoreRecyclerOptions<PersonModel> mOptions;
     private ObservableSnapshotArray<PersonModel> mSnapshots;
+    private ArrayList<PersonModel> mSnapshotsTotal;
+
+
 
     public ProfileAdapter(@NonNull FirestoreRecyclerOptions<PersonModel> options, Context context) {
         super(options);
         this.mOptions = options;
         this.mSnapshots = options.getSnapshots();
         this.mContext = context;
+        this.mSnapshotsTotal = new ArrayList<>(options.getSnapshots());
 
 
         if (options.getOwner() != null) {
@@ -247,6 +254,66 @@ public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, Profil
             startListening();
         }
     }
+
+
+
+
+    @Override
+    public Filter getFilter() {
+        return mFilter;
+    }
+
+
+
+
+    private Filter mFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<PersonModel> filteredSnapshots = new ArrayList<>();
+
+
+            if (constraint == null || constraint.length() == 0){
+                filteredSnapshots.addAll(mSnapshotsTotal);
+            } else {
+                String filterPatter = constraint.toString().toLowerCase().trim();
+
+                for (PersonModel item : mSnapshotsTotal){
+                    if (item.getName().toLowerCase().contains(filterPatter)){
+                        filteredSnapshots.add(item);
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredSnapshots;
+
+            return results;
+
+
+        }
+
+
+
+
+
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+
+        }
+
+
+
+    };
+
+
+
+
+
+
+
 
 
 

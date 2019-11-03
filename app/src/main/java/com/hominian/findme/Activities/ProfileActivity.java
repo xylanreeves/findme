@@ -9,6 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.hominian.findme.Adapters.ProfileSliderAdapter;
 import com.hominian.findme.DataModels.PersonModel;
 import com.hominian.findme.R;
@@ -49,17 +55,40 @@ public class ProfileActivity extends AppCompatActivity {
 
     private PersonModel mPerson;
 
+    private AdView mAdView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(getResources().getString(R.string.test_device_id))
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
+
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+        });
+
         initFindViewByIds();
         mPerson = getIntent().getParcelableExtra("personObject");
         initLayout();
 
+
     }
+
 
 
     @SuppressLint("SetTextI18n")
