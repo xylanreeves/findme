@@ -301,7 +301,6 @@ public class ProfileAdapter extends FirestoreRecyclerAdapter<PersonModel, Profil
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-
         }
 
 

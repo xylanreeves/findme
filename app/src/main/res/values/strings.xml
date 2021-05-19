@@ -1,5 +1,6 @@
 <resources>
     <string name="application_name">FindMe</string>
+    <string name="app_name">FindMe</string>
 
     <string name="add_missing_person">Add Missing/Lost Person</string>
 
@@ -144,6 +145,10 @@
     <string name="drawer_toggle_button">drawer toggle button</string>
     <string name="drawer_header">Drawer Header</string>
     <string name="profile_image">profile image</string>
+    <string name="_10">$10</string>
+    <string name="_1">$1</string>
+    <string name="_5">$5</string>
+    <string name="watch_an_amazing_ad">Watch an Amazing Ad!</string>
 
 
 </resources>

@@ -70,8 +70,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(getResources().getString(R.string.test_device_id))
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+//                .addTestDevice(getResources().getString(R.string.test_device_id))
+//                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
 

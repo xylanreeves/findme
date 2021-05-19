@@ -148,7 +148,7 @@ public class PhoneAuth extends AppCompatActivity implements View.OnClickListener
                     Log.e(TAG, "onVerificationFailed: ", e);
                 }
 
-                Toast.makeText(PhoneAuth.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "onVerificationFailed: " + e.getMessage());
             }
         };
     }

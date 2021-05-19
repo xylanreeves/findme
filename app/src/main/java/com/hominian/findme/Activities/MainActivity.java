@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_home, menu);
         MenuItem searchBar = menu.findItem(R.id.action_search);
         materialSearchView.setMenuItem(searchBar);
-
+        searchBar.setVisible(false);
         return true;
     }
 

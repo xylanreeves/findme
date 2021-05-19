@@ -106,8 +106,7 @@
             android:drawableTop="@drawable/ic_add"
             android:focusable="true"
             android:onClick="addPerson"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="4dp"
             android:text="@string/add_missing_person"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary" />
