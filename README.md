@@ -16,9 +16,9 @@ An Android application designed to help communities **post and query missing peo
 ## 📸 Screenshots
 
 ### Intro Pages
-![Intro - Missing People](screenshots/1.png)
-![Intro - Statistics](screenshots/2.png)
-![Intro - About FindMe](screenshots/3.png)
+![Intro Missing People](screenshots/1.png)
+![Intro Statistics](screenshots/2.png)
+![Intro About FindMe](screenshots/3.png)
 
 ### Main App
 ![Homepage](screenshots/4.png)
