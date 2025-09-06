@@ -13,8 +13,17 @@ An Android application designed to help communities **post and query missing peo
 - **Database:** Firebase Realtime Database  
 - **Other:** Firebase Authentication (for secure posting)
 
-## 📸 Screenshots / Demo
-_(Add screenshots of the Android app UI here – posting screen, search results, etc.)_
+## 📸 Screenshots
+
+### Intro Pages
+![Intro - Missing People](screenshots/1_intro_missing.png)
+![Intro - Statistics](screenshots/2_intro_statistics.png)
+![Intro - About FindMe](screenshots/3_intro_findme.png)
+
+### Main App
+![Homepage](screenshots/4_homepage.png)
+![Profile Page](screenshots/5_profile.png)
+![Terms & Conditions](screenshots/6_terms.png)
 
 ## ⚙️ Setup
 Clone and open in Android Studio:
